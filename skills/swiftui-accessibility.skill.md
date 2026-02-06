@@ -82,3 +82,16 @@ Your response must include:
 ## Example prompt
 
 "Review this SwiftUI view for iOS + macOS accessibility and return prioritized findings with a patch-ready diff."
+
+## References
+
+These references represent the primary sources used when evaluating and prioritizing accessibility findings.
+
+- Apple Human Interface Guidelines – Accessibility  
+  https://developer.apple.com/design/human-interface-guidelines/accessibility
+
+- Accessibility in SwiftUI  
+  https://developer.apple.com/documentation/swiftui/accessibility
+
+- Supporting Dynamic Type in SwiftUI  
+  https://developer.apple.com/documentation/swiftui/dynamic-type
