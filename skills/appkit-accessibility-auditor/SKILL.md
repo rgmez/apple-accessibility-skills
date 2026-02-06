@@ -1,3 +1,8 @@
+---
+name: appkit-accessibility-auditor
+description: Audit macOS AppKit interfaces for accessibility, focusing on VoiceOver, keyboard navigation, and semantics
+---
+
 # AppKit Accessibility Auditor
 
 **Platform:** macOS  

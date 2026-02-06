@@ -1,3 +1,8 @@
+---
+name: swiftui-accessibility-auditor
+description: Audit SwiftUI views for accessibility (iOS + macOS) with patch-ready fixes
+---
+
 # SwiftUI Accessibility Auditor
 
 **Platforms:** iOS, iPadOS, macOS  

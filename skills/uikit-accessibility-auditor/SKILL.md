@@ -1,3 +1,8 @@
+---
+name: uikit-accessibility-auditor
+description: Audit UIKit-based screens for accessibility issues with concrete VoiceOver and Dynamic Type fixes
+---
+
 # UIKit Accessibility Auditor
 
 **Platforms:** iOS, iPadOS  
