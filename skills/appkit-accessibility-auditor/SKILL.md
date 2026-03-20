@@ -1,6 +1,8 @@
 ---
 name: appkit-accessibility-auditor
 description: Audit macOS AppKit interfaces for accessibility, focusing on VoiceOver, keyboard navigation, and semantics
+version: 1.1.0
+compatibility: [cursor, claude, codex, skills.sh]
 ---
 
 # AppKit Accessibility Auditor
@@ -40,6 +42,14 @@ If context is missing, assume the simplest intent and provide safe alternatives.
 - Do not add accessibility properties everywhere without reason.
 - Do not break layout, event handling, or existing keyboard shortcuts.
 - Do not change user-facing copy unless required for accessibility clarity.
+
+## Guardrails
+
+- Prefer minimal, localized changes.
+- Do not invent APIs.
+- Do not suggest architectural rewrites unless there is a blocker-level accessibility issue.
+- Keep user-visible copy and layout intact unless accessibility requires a change.
+- State assumptions explicitly when context is missing.
 
 ## Audit checklist
 
@@ -115,7 +125,7 @@ Tools to consider:
 - Do not rely on color alone for status (error/success/selection).
 - Provide icons, text, or VoiceOver cues for state.
 
-## Output requirements
+## Output contract
 
 Your response must include:
 
@@ -140,6 +150,19 @@ Provide short steps to verify:
 - Full keyboard navigation (Tab/Shift-Tab, arrows in lists)
 - State discoverability (selected/disabled/toggled)
 - Announcements on dynamic updates
+
+## Verification protocol
+
+Every response must include:
+- concrete manual test steps
+- expected accessibility outcomes
+- a brief regression-risk note
+
+Required artifact:
+- `skills/appkit-accessibility-auditor/checklist.md`
+
+Expectation:
+- behavior should remain unchanged except accessibility semantics and discoverability.
 
 ## Style rules
 
@@ -189,3 +212,7 @@ These references represent the primary sources used when evaluating and prioriti
 
 - Keyboard Navigation and Focus (macOS)  
   https://developer.apple.com/documentation/appkit/nsresponder
+
+## Version
+
+1.1.0

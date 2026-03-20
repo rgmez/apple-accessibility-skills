@@ -1,6 +1,8 @@
 ---
 name: uikit-accessibility-auditor
 description: Audit UIKit-based screens for accessibility issues with concrete VoiceOver and Dynamic Type fixes
+version: 1.1.0
+compatibility: [cursor, claude, codex, skills.sh]
 ---
 
 # UIKit Accessibility Auditor
@@ -39,6 +41,14 @@ If context is missing, assume the simplest intent and provide safe alternatives.
 - Do not add accessibility labels everywhere without reason.
 - Do not break layout, animations, or event handling.
 - Do not change user-facing copy unless it is required for accessibility clarity.
+
+## Guardrails
+
+- Prefer minimal, localized changes.
+- Do not invent APIs.
+- Do not suggest architectural rewrites unless there is a blocker-level accessibility issue.
+- Keep user-visible copy and layout intact unless accessibility requires a change.
+- State assumptions explicitly when context is missing.
 
 ## Audit checklist
 
@@ -106,7 +116,7 @@ Tools to consider:
 - Use identifiers for UI tests (not VoiceOver), but do not confuse them with labels.
 - Only recommend `accessibilityIdentifier` when it clearly improves testability.
 
-## Output requirements
+## Output contract
 
 Your response must include:
 
@@ -131,6 +141,19 @@ Provide short steps to verify:
 - Dynamic Type at extreme sizes
 - Hit targets
 - Selection/state discoverability
+
+## Verification protocol
+
+Every response must include:
+- concrete manual test steps
+- expected accessibility outcomes
+- a brief regression-risk note
+
+Required artifact:
+- `skills/uikit-accessibility-auditor/checklist.md`
+
+Expectation:
+- behavior should remain unchanged except accessibility semantics and discoverability.
 
 ## Style rules
 
@@ -180,3 +203,7 @@ These references represent the primary sources used when evaluating and prioriti
 
 - Supporting Dynamic Type in UIKit  
   https://developer.apple.com/documentation/uikit/uifontmetrics
+
+## Version
+
+1.1.0

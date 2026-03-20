@@ -1,6 +1,8 @@
 ---
 name: swiftui-accessibility-auditor
 description: Audit SwiftUI views for accessibility (iOS + macOS) with patch-ready fixes
+version: 1.1.0
+compatibility: [cursor, claude, codex, skills.sh]
 ---
 
 # SwiftUI Accessibility Auditor
@@ -41,6 +43,14 @@ If context is missing, assume the simplest intent and provide alternatives.
 - Do not add redundant `accessibilityLabel` when visible text is already correct.
 - Do not break layout or change UI copy unless needed for accessibility.
 
+## Guardrails
+
+- Prefer minimal, localized changes.
+- Do not invent APIs.
+- Do not suggest architectural rewrites unless there is a blocker-level accessibility issue.
+- Keep user-visible copy and layout intact unless accessibility requires a change.
+- State assumptions explicitly when context is missing.
+
 ## Audit checklist
 
 ### VoiceOver semantics
@@ -70,13 +80,31 @@ If context is missing, assume the simplest intent and provide alternatives.
 - Avoid aggressive animations.
 - Respect Reduce Motion preferences.
 
-## Output requirements
+## Output contract
 
 Your response must include:
 
 1. Findings grouped by priority (P0, P1, P2)
 2. Patch-ready code snippets
 3. A short manual testing checklist
+
+Each finding must include:
+- What is wrong
+- Why it matters (1-2 lines)
+- The exact fix
+
+## Verification protocol
+
+Every response must include:
+- concrete manual test steps
+- expected accessibility outcomes
+- a brief regression-risk note
+
+Required artifact:
+- `skills/swiftui-accessibility-auditor/checklist.md`
+
+Expectation:
+- behavior should remain unchanged except accessibility semantics and discoverability.
 
 ## Style rules
 
@@ -100,3 +128,7 @@ These references represent the primary sources used when evaluating and prioriti
 
 - Supporting Dynamic Type in SwiftUI  
   https://developer.apple.com/documentation/swiftui/dynamic-type
+
+## Version
+
+1.1.0
