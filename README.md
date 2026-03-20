@@ -1,7 +1,7 @@
 # Apple Accessibility Skills
 
-Accessibility audit skills for Apple platforms, designed to be used with AI-assisted development tools
-such as Cursor or VS Code agents.
+Accessibility audit skills for Apple platforms, designed for AI-assisted development tools
+such as Cursor, Claude, Codex, and skills.sh-compatible agents.
 
 These skills focus on **reasoning about accessibility**, not blindly adding modifiers.
 They are meant to make accessibility concerns explicit, reviewable, and intentional.
@@ -60,7 +60,9 @@ The agent will then apply the rules defined in the corresponding `SKILL.md` file
 
 ---
 
-## Install via skills.sh
+## Install by environment
+
+### Option A: skills.sh CLI
 
 You can install these skills using the `skills` CLI (no global install required):
 
@@ -90,6 +92,39 @@ Telemetry: the CLI collects anonymous install telemetry by default. To opt out:
 DISABLE_TELEMETRY=1 npx skills add rgmez/apple-accessibility-skills@swiftui-accessibility-auditor
 ```
 
+### Option B: Cursor (manual local install)
+
+1. Clone this repository locally.
+2. Use the `skills/` folder as your skill source.
+3. Ask Cursor to apply one platform skill at a time.
+
+Suggested prompt:
+
+> "Use the UIKit Accessibility Auditor on this screen and return P0/P1/P2 findings with patch-ready fixes."
+
+### Option C: Claude / Codex (adapter-guided)
+
+Use adapter docs for tool-specific framing:
+- `docs/adapters/claude.md`
+- `docs/adapters/codex.md`
+- `docs/adapters/cursor.md`
+
+Then route to the target skill through:
+- `AGENTS.md`
+
+---
+
+## Verification after install
+
+Run one smoke prompt and confirm response shape:
+
+> "Audit this SwiftUI view for accessibility and return: P0/P1/P2 findings, patch-ready snippets, and manual checklist steps."
+
+Expected:
+- findings grouped by P0/P1/P2
+- patch-ready edits
+- verification steps referencing the platform checklist
+
 ---
 
 ## Repository structure
@@ -98,6 +133,12 @@ DISABLE_TELEMETRY=1 npx skills add rgmez/apple-accessibility-skills@swiftui-acce
 apple-accessibility-skills/
 ├── README.md
 ├── AGENTS.md
+├── CONTRIBUTING.md
+├── CHANGELOG.md
+├── docs/
+│   ├── skill-canonical-standard.md
+│   ├── releasing.md
+│   └── adapters/
 ├── skills/
 │   ├── swiftui-accessibility-auditor/
 │   │   ├── SKILL.md
@@ -114,9 +155,11 @@ apple-accessibility-skills/
 ### Structure rationale
 
 - Each skill lives in its own folder, following the `skills.sh` discovery format
-- `SKILL.md` defines the agent’s role, audit rules, and output expectations
+- `SKILL.md` defines role, guardrails, output contract, and verification protocol
 - `checklist.md` provides human-facing, manual verification steps
 - Checklists are not installable skills; they support the main skill
+- `docs/skill-canonical-standard.md` keeps section and schema consistency across all skills
+- `AGENTS.md` provides low-overhead routing to the right platform skill
 - `examples/` is reserved for usage samples and real-world audits
 
 ---
@@ -147,6 +190,11 @@ The skills are based on Apple’s official accessibility guidance, including:
 - SwiftUI, UIKit, and AppKit accessibility documentation
 
 Specific references are listed inside each skill file.
+
+Repository process references:
+- Contribution rules: `CONTRIBUTING.md`
+- Changelog and release tracking: `CHANGELOG.md`
+- Release workflow: `docs/releasing.md`
 
 ---
 
