@@ -6,6 +6,32 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-03-20
+
+### Added
+- Repository governance and release hygiene:
+  - `CONTRIBUTING.md`
+  - `.github/RELEASE_TEMPLATE.md`
+  - `docs/releasing.md`
+- Canonical skill authoring contract in `docs/skill-canonical-standard.md`.
+- Tool adapter guides:
+  - `docs/adapters/cursor.md`
+  - `docs/adapters/claude.md`
+  - `docs/adapters/codex.md`
+- Routing guide in `AGENTS.md` with framework-based loading rules.
+
+### Changed
+- Hardened all platform skill files with shared contract updates:
+  - added `version` and `compatibility` frontmatter
+  - added shared `Guardrails` section
+  - renamed output section to `Output contract`
+  - added required `Verification protocol`
+  - added explicit `Version` section
+- Expanded `README.md` with:
+  - installation by environment (skills.sh, Cursor, Claude, Codex)
+  - post-install smoke verification flow
+  - updated repository structure and process references
+
 ## [1.0.0] - 2026-03-20
 
 ### Added
