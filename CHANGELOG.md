@@ -6,6 +6,8 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-03-22
+
 ### Added
 - `docs/review-red-flags.md` with practical anti-patterns and reviewer questions.
 - Docs quality automation:
