@@ -20,8 +20,8 @@ Use this file to route quickly to the correct skill with minimal context loading
 
 - Load one platform skill by default.
 - Load multiple skills only for mixed-framework code paths.
-- Keep prompts framework-specific to reduce token usage.
+- Keep requests framework-specific to reduce token usage.
 
-## Quick prompt skeleton
+## Quick request skeleton
 
 "Use the <framework> Accessibility Auditor. Return P0/P1/P2 findings, patch-ready fixes, and manual verification steps."

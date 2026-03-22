@@ -17,6 +17,22 @@ This repository maintains platform-specific accessibility audit skills for:
 - Preserve existing behavior unless accessibility requires a change.
 - Keep output concise and easy to verify manually.
 
+## Editorial Style Rules
+
+- Write direct, practical guidance with explicit user impact.
+- Prefer concrete failure modes over generic warnings.
+- Avoid robotic wording and over-polished boilerplate.
+- Keep responses concise; use short bullets and patch-ready snippets.
+- Do not present assumptions as facts.
+
+## Reject Criteria For Changes
+
+- Broad refactor with no blocker-level accessibility reason.
+- "Accessibility polish" with no measurable user impact.
+- Suggesting APIs or behavior not present in Apple docs.
+- Recommendations that alter product copy without necessity.
+- Missing manual verification steps.
+
 ## Required Skill Quality
 
 For every skill update:
@@ -32,6 +48,7 @@ For every skill update:
 - [ ] Output contract remains stable and clear
 - [ ] Manual verification steps are still valid
 - [ ] Links and references resolve
+- [ ] Review red flags checked (`docs/review-red-flags.md`)
 
 ## Commit Style
 

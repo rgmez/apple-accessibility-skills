@@ -1,0 +1,27 @@
+name: Docs Checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Markdown lint
+        run: |
+          npm install --global markdownlint-cli
+          markdownlint "**/*.md" --config .markdownlint.json
+
+      - name: Validate local markdown links
+        run: python3 scripts/check_markdown_local_links.py

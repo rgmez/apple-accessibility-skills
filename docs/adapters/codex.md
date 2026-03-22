@@ -17,6 +17,6 @@ Use this adapter when running these skills in Codex workflows.
 - UIKit: `skills/uikit-accessibility-auditor/SKILL.md`
 - AppKit: `skills/appkit-accessibility-auditor/SKILL.md`
 
-## Prompt pattern
+## Request pattern
 
 "Audit this code with the <framework> accessibility skill. Output P0/P1/P2 findings, exact fix snippets, and required manual verification steps."

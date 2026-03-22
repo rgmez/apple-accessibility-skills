@@ -168,11 +168,11 @@ Expectation:
 - Prefer a “before/after” snippet or a unified-diff style block.
 - Avoid speculative changes; make assumptions explicit if needed.
 
-## Example prompt
+## Example request
 
 “Review this UIViewController and its cells using the UIKit Accessibility Auditor. Return prioritized findings (P0/P1/P2) and a patch-ready diff.”
 
-## What a good answer looks like (format template)
+## What a good answer looks like (response structure example)
 
 ### Findings
 - **P0:** ...

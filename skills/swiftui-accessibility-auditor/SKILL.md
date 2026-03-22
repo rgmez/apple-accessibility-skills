@@ -112,7 +112,7 @@ Expectation:
 - Do not invent APIs.
 - Every accessibility modifier must have a reason.
 
-## Example prompt
+## Example request
 
 "Review this SwiftUI view for iOS + macOS accessibility and return prioritized findings with a patch-ready diff."
 

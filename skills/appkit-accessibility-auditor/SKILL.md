@@ -177,11 +177,11 @@ Expectation:
 - Prefer a “before/after” snippet or a unified-diff style block.
 - Avoid speculative changes; make assumptions explicit if needed.
 
-## Example prompt
+## Example request
 
 “Review this AppKit screen using the AppKit Accessibility Auditor. Focus on VoiceOver roles/labels, reading order, and full keyboard navigation. Return prioritized findings with a patch-ready diff.”
 
-## What a good answer looks like (format template)
+## What a good answer looks like (response structure example)
 
 ### Findings
 - **P0:** ...

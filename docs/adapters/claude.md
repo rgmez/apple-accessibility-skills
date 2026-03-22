@@ -17,6 +17,6 @@ Use this adapter when running these skills in Claude environments.
 - UIKit: `skills/uikit-accessibility-auditor/SKILL.md`
 - AppKit: `skills/appkit-accessibility-auditor/SKILL.md`
 
-## Prompt pattern
+## Request pattern
 
 "Use the <framework> accessibility auditor skill. Keep changes minimal and return findings by priority, patch snippets, and manual validation checklist."

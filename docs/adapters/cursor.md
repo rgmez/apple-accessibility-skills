@@ -17,6 +17,6 @@ Use this adapter when running these skills in Cursor.
 - UIKit: `skills/uikit-accessibility-auditor/SKILL.md`
 - AppKit: `skills/appkit-accessibility-auditor/SKILL.md`
 
-## Prompt pattern
+## Request pattern
 
 "Audit this <framework> code with the corresponding accessibility auditor. Return P0/P1/P2 findings, patch-ready changes, and manual verification steps."

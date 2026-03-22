@@ -32,7 +32,7 @@ All skill files must use this order:
 6. Output contract
 7. Verification protocol
 8. Style rules
-9. Example prompt
+9. Example request
 10. References
 11. Version
 

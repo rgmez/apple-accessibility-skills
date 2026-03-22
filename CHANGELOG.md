@@ -6,6 +6,26 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+### Added
+- `docs/review-red-flags.md` with practical anti-patterns and reviewer questions.
+- Docs quality automation:
+  - `.github/workflows/docs-checks.yml`
+  - `.markdownlint.json`
+  - `scripts/check_markdown_local_links.py`
+
+### Changed
+- Reworked `README.md` with:
+  - stronger positioning and practical quick-start flow
+  - explicit non-goals
+  - before/after accessibility example
+  - cleaner, tool-agnostic usage language
+- Updated skill and adapter wording from prompt-centric to request-centric phrasing.
+- Expanded `CONTRIBUTING.md` with editorial rules and reject criteria.
+- Improved release/process docs:
+  - `.github/RELEASE_TEMPLATE.md`
+  - `docs/releasing.md`
+  - `docs/skill-canonical-standard.md`
+
 ## [1.1.0] - 2026-03-20
 
 ### Added
