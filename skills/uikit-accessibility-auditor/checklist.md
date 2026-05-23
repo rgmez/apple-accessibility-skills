@@ -8,6 +8,7 @@ Use VoiceOver, Dynamic Type, and touch interaction to validate behavior.
 
 ## VoiceOver Labels & Values
 - [ ] All actionable elements have meaningful accessibility labels
+- [ ] Labels match visible text where possible for predictable Voice Control commands
 - [ ] Icon-only buttons are understandable without visual context
 - [ ] Changing states expose updated accessibility values
 - [ ] Hints are used only when they add meaningful guidance
@@ -30,6 +31,13 @@ Use VoiceOver, Dynamic Type, and touch interaction to validate behavior.
 - [ ] Tap targets are large enough for comfortable interaction
 - [ ] Custom hit areas respond consistently
 - [ ] Interactive elements are discoverable via VoiceOver
+- [ ] Custom gesture-driven controls expose an accessible activation path
+
+## Voice Control, Switch Control & Keyboard
+- [ ] Voice Control "Show names" exposes clear, non-duplicated labels
+- [ ] Switch Control can reach controls in a logical scan order
+- [ ] Full Keyboard Access can focus and activate interactive elements
+- [ ] Secondary actions are exposed through custom actions when hidden behind gestures
 
 ## Screen Changes & Announcements
 - [ ] Screen transitions are announced when appropriate
@@ -45,4 +53,5 @@ Use VoiceOver, Dynamic Type, and touch interaction to validate behavior.
 ## Final validation
 - [ ] Screen is usable with VoiceOver enabled
 - [ ] Screen works at extreme Dynamic Type sizes
+- [ ] Screen remains operable with non-touch input where relevant
 - [ ] No accessibility regressions introduced

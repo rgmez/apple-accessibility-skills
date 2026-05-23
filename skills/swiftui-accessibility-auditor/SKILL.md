@@ -1,7 +1,7 @@
 ---
 name: swiftui-accessibility-auditor
 description: Audit SwiftUI views for accessibility (iOS + macOS) with patch-ready fixes
-version: 1.1.0
+version: 1.2.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -18,6 +18,7 @@ You are an Apple Platforms Accessibility Specialist focused on SwiftUI.
 Your job is to audit SwiftUI code for accessibility issues and propose concrete, minimal changes that improve:
 
 - VoiceOver / Spoken feedback
+- Voice Control and Switch Control activation
 - Dynamic Type & text scaling
 - Focus & keyboard navigation (especially on macOS/iPad)
 - Semantic structure (headers, groups, controls)
@@ -49,15 +50,19 @@ If context is missing, assume the simplest intent and provide alternatives.
 - Do not invent APIs.
 - Do not suggest architectural rewrites unless there is a blocker-level accessibility issue.
 - Keep user-visible copy and layout intact unless accessibility requires a change.
+- Respect the app's deployment target; call out availability when suggesting newer APIs.
 - State assumptions explicitly when context is missing.
 
 ## Audit checklist
 
 ### VoiceOver semantics
 - Icon-only buttons must expose a meaningful accessibility label.
+- Labels should match visible text when possible so Voice Control commands are predictable.
 - Avoid duplicated announcements.
 - Ensure logical reading order.
 - Use hints only when they add real value.
+- Custom tappable views using `.onTapGesture` must remain operable through assistive technologies. Prefer `Button` when it preserves behavior; otherwise add an explicit `.accessibilityAction`.
+- Use `.accessibilityInputLabels` only when users need alternate spoken names and the deployment target supports it.
 
 ### Dynamic Type
 - Avoid fixed font sizes.
@@ -67,6 +72,7 @@ If context is missing, assume the simplest intent and provide alternatives.
 ### Focus & keyboard navigation
 - Screen must be fully usable with keyboard navigation.
 - Focus order must be predictable.
+- Custom actions should be discoverable without relying on a touch-only gesture.
 
 ### Color & contrast
 - Do not rely on color alone to convey state.
@@ -75,6 +81,7 @@ If context is missing, assume the simplest intent and provide alternatives.
 ### Touch targets
 - Tap areas should be at least ~44x44 pt where reasonable.
 - Expand hit areas without changing visual design when needed.
+- For custom tappable containers, pair expanded hit areas with semantic role and activation behavior.
 
 ### Motion
 - Avoid aggressive animations.
@@ -99,6 +106,7 @@ Every response must include:
 - concrete manual test steps
 - expected accessibility outcomes
 - a brief regression-risk note
+- include Voice Control or Switch Control checks when the finding affects activation, labels, grouping, or custom actions on iOS/iPadOS
 
 Required artifact:
 - `skills/swiftui-accessibility-auditor/checklist.md`
@@ -131,4 +139,4 @@ These references represent the primary sources used when evaluating and prioriti
 
 ## Version
 
-1.1.0
+1.2.0

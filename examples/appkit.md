@@ -66,7 +66,7 @@ Suggest minimal changes without rewriting the component.
 
 **P0**
 - Not operable via keyboard (mouse-only).
-- No accessibility role/label; not discoverable by VoiceOver.
+- No accessibility role/label/action; not discoverable or directly activatable by VoiceOver.
 
 **Suggested patch (outline)**
 ```diff
@@ -74,6 +74,7 @@ Suggest minimal changes without rewriting the component.
      var onActivate: (() -> Void)?
 
 +    override var acceptsFirstResponder: Bool { true }
++    override func isAccessibilityElement() -> Bool { true }
 +    override func keyDown(with event: NSEvent) {
 +        switch event.keyCode {
 +        case 36, 49: // Return, Space
@@ -85,6 +86,10 @@ Suggest minimal changes without rewriting the component.
 +
 +    override func accessibilityRole() -> NSAccessibility.Role? { .button }
 +    override func accessibilityLabel() -> String? { "Open details" }
++    override func accessibilityPerformPress() -> Bool {
++        onActivate?()
++        return true
++    }
 
      override func mouseDown(with event: NSEvent) {
          onActivate?()

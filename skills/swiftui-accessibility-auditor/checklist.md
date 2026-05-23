@@ -8,10 +8,12 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 
 ## VoiceOver & Semantics
 - [ ] All icon-only buttons have a clear, meaningful label
+- [ ] Labels match visible text where possible for predictable Voice Control commands
 - [ ] No duplicated announcements (parent + child announcing same text)
 - [ ] Headers are correctly exposed as headers
 - [ ] Related elements are grouped logically when appropriate
 - [ ] Reading order matches the visual and logical layout
+- [ ] Custom tappable views expose both button semantics and an activation action
 
 ## Dynamic Type
 - [ ] Text scales correctly up to the largest accessibility sizes
@@ -24,6 +26,7 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 - [ ] Focus order is predictable and logical
 - [ ] Custom components can receive focus when needed
 - [ ] Focus is not trapped or lost after interactions
+- [ ] Custom actions are reachable without touch-only gestures
 
 ## Color & Contrast
 - [ ] Information is not conveyed by color alone
@@ -33,6 +36,12 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 ## Touch Targets (iOS)
 - [ ] Tappable elements are at least ~44x44 pt
 - [ ] Hit areas are expanded without changing visual layout when needed
+- [ ] Custom tappable containers remain activatable with VoiceOver
+
+## Voice Control & Switch Control (iOS / iPadOS)
+- [ ] Voice Control "Show names" exposes clear, non-duplicated labels
+- [ ] Switch Control can reach all interactive elements in a logical scan order
+- [ ] Grouping reduces unnecessary scan stops without hiding actions
 
 ## Motion
 - [ ] Animations are subtle and do not block interaction

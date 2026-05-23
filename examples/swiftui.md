@@ -65,7 +65,7 @@ Audit this row for VoiceOver semantics and reading order. Provide a minimal patc
 ### Expected output (summary)
 
 **P0**
-- The row is tappable but not exposed as a single actionable element, causing confusing VoiceOver navigation.
+- The row is tappable but not exposed as a single actionable element with an explicit accessibility activation path.
 
 **P1**
 - Decorative icon should be hidden from accessibility.
@@ -89,6 +89,7 @@ Audit this row for VoiceOver semantics and reading order. Provide a minimal patc
 + .accessibilityAddTraits(.isButton)
 + .accessibilityLabel("Pro Plan")
 + .accessibilityHint("Opens plan details")
++ .accessibilityAction { openPlanDetails() }
 ```
 
 ---

@@ -6,6 +6,15 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-05-23
+
+### Changed
+- Strengthened SwiftUI custom tappable view guidance to require an explicit accessibility activation path when `.onTapGesture` is used.
+- Expanded SwiftUI and UIKit audit guidance to cover Voice Control, Switch Control, and keyboard activation checks.
+- Strengthened AppKit custom control guidance to require an accessibility press/action path for custom `NSView` controls.
+- Expanded AppKit audit guidance to cover Voice Control, Switch Control, and non-pointer activation checks.
+- Reclassified the UIKit Dynamic Type example from `P0` to `P1` to better match the priority contract.
+
 ## [1.1.1] - 2026-03-22
 
 ### Added

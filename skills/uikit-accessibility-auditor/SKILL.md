@@ -1,7 +1,7 @@
 ---
 name: uikit-accessibility-auditor
 description: Audit UIKit-based screens for accessibility issues with concrete VoiceOver and Dynamic Type fixes
-version: 1.1.0
+version: 1.2.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -18,8 +18,9 @@ You are an iOS Accessibility Specialist focused on UIKit.
 Your job is to audit UIKit code for accessibility issues and propose concrete, minimal changes that improve:
 
 - VoiceOver / Spoken feedback
+- Voice Control and Switch Control activation
 - Dynamic Type & text scaling
-- Focus order and screen change announcements
+- Full Keyboard Access, focus order, and screen change announcements
 - Semantic structure (headers, groups, controls)
 - Contrast and non-color affordances
 - Touch target sizing and hit testing
@@ -48,15 +49,18 @@ If context is missing, assume the simplest intent and provide safe alternatives.
 - Do not invent APIs.
 - Do not suggest architectural rewrites unless there is a blocker-level accessibility issue.
 - Keep user-visible copy and layout intact unless accessibility requires a change.
+- Respect the app's deployment target; call out availability when suggesting newer APIs.
 - State assumptions explicitly when context is missing.
 
 ## Audit checklist
 
 ### A) Labels, hints, values (VoiceOver)
 - Icon-only buttons must have a meaningful `accessibilityLabel`.
+- Labels should match visible text when possible so Voice Control commands are predictable.
 - Controls with changing state should expose `accessibilityValue` (or update label/value accordingly).
 - Use `accessibilityHint` only when it adds meaningful “how to” context.
 - Avoid duplicated announcements (e.g., label repeated across parent/child).
+- Use `accessibilityUserInputLabels` only when users need alternate spoken names and the deployment target supports it.
 
 Common targets:
 - Navigation bar buttons with only an image
@@ -86,10 +90,13 @@ Tools to consider:
 ### D) Custom controls and hit testing
 - If a view is tappable, it must behave like a control for accessibility.
 - Ensure hit targets are large enough and don’t require pixel-perfect taps.
+- Custom gesture-driven controls must provide an accessible activation path.
 
 Tools to consider:
 - `point(inside:with:)` override to expand tappable area (when needed)
 - `accessibilityFrameInContainerSpace` for custom layouts (only when required)
+- `accessibilityActivate()` for custom `UIView` controls that behave like buttons
+- `accessibilityCustomActions` for secondary actions hidden behind gestures or cell buttons
 
 ### E) Dynamic Type
 - Text must scale with the user’s content size category.
@@ -108,11 +115,21 @@ Tools to consider:
 - `UIAccessibility.post(notification: .layoutChanged, argument: ...)`
 - `UIAccessibility.post(notification: .announcement, argument: ...)` (use sparingly)
 
-### G) Color, contrast, and non-color cues
+### G) Voice Control, Switch Control, and keyboard
+- Voice Control should expose clear, non-duplicated names for interactive elements.
+- Switch Control should reach controls in a logical scan order without excessive stops.
+- Full Keyboard Access should reach and activate controls without requiring touch-only gestures.
+
+Tools to consider:
+- `accessibilityUserInputLabels` for alternate voice commands when needed
+- `accessibilityCustomActions` for secondary actions in cells or custom controls
+- Grouping related content while preserving discoverable actions
+
+### H) Color, contrast, and non-color cues
 - Do not rely on color alone to convey error/success/selection.
 - Add text, iconography, or VoiceOver cues for state.
 
-### H) Accessibility identifiers (optional)
+### I) Accessibility identifiers (optional)
 - Use identifiers for UI tests (not VoiceOver), but do not confuse them with labels.
 - Only recommend `accessibilityIdentifier` when it clearly improves testability.
 
@@ -141,6 +158,7 @@ Provide short steps to verify:
 - Dynamic Type at extreme sizes
 - Hit targets
 - Selection/state discoverability
+- Voice Control / Switch Control / Full Keyboard Access when activation or grouping is touched
 
 ## Verification protocol
 
@@ -206,4 +224,4 @@ These references represent the primary sources used when evaluating and prioriti
 
 ## Version
 
-1.1.0
+1.2.0

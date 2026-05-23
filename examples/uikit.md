@@ -95,7 +95,7 @@ Audit for Dynamic Type support and provide a minimal fix using UIFontMetrics.
 
 ### Expected output (summary)
 
-**P0**
+**P1**
 - Fonts do not scale with content size category.
 
 **Suggested patch**
