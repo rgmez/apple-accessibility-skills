@@ -1,7 +1,7 @@
 ---
 name: uikit-accessibility-auditor
 description: Audit UIKit-based screens for accessibility issues with concrete VoiceOver and Dynamic Type fixes
-version: 1.2.0
+version: 1.3.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -133,6 +133,15 @@ Tools to consider:
 - Use identifiers for UI tests (not VoiceOver), but do not confuse them with labels.
 - Only recommend `accessibilityIdentifier` when it clearly improves testability.
 
+### J) WWDC26 / 2027 SDK readiness
+- Resizable iPhone apps, iPhone Mirroring, and iPad windowing must preserve Dynamic Type, focus order, VoiceOver order, and Full Keyboard Access.
+- Avoid accessibility or layout decisions that depend on `UIScreen.main`, fixed screen bounds, user interface idiom, or interface orientation; prefer scene, trait, and view-size context.
+- Tab/sidebar changes, prominent tabs, navigation bar minimization, and menu image visibility must not hide important actions from assistive technologies.
+- Liquid Glass materials, scroll edge effects, and translucent surfaces must remain legible with Reduce Transparency and Increase Contrast enabled.
+- Media playback screens must expose subtitle selection, respect system subtitle styles, and prefer `AVPlayerViewController`, `AVLegibleMediaOptionsMenuController`, or equivalent standard controls when possible.
+- Drag/drop, context menus, Siri/App Intents entry points, and generated actions must not depend on touch-only gestures, animations, or purely visual state.
+- Feature names, tabs, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
+
 ## Output contract
 
 Your response must include:
@@ -224,4 +233,4 @@ These references represent the primary sources used when evaluating and prioriti
 
 ## Version
 
-1.2.0
+1.3.0

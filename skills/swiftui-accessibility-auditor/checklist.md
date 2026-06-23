@@ -47,6 +47,13 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 - [ ] Animations are subtle and do not block interaction
 - [ ] Reduce Motion preferences are respected where applicable
 
+## WWDC26 / SDK 2027 Readiness
+- [ ] Resizing, iPhone Mirroring, iPad windowing, and toolbar overflow keep text readable and focus order stable
+- [ ] Liquid Glass, translucent materials, and scroll edge effects remain legible with Reduce Transparency and Increase Contrast
+- [ ] Reorder, drag/drop, swipe actions, and gesture-first flows expose accessible alternatives
+- [ ] Media screens expose subtitle selection and respect system subtitle styles
+- [ ] Feature, tab, menu, and action names are clear, localizable, and usable with Voice Control
+
 ---
 
 ## Final validation

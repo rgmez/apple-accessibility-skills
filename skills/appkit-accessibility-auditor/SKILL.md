@@ -1,7 +1,7 @@
 ---
 name: appkit-accessibility-auditor
 description: Audit macOS AppKit interfaces for accessibility, focusing on VoiceOver, keyboard navigation, and semantics
-version: 1.2.0
+version: 1.3.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -136,6 +136,14 @@ Tools to consider:
 - Do not rely on color alone for status (error/success/selection).
 - Provide icons, text, or VoiceOver cues for state.
 
+### J) WWDC26 / 2027 SDK readiness
+- Resizable windows, sidebars, toolbars, and changing content areas must preserve keyboard navigation, focus order, and VoiceOver reading order.
+- Liquid Glass materials, updated window chrome, and translucent surfaces must remain legible with Reduce Transparency and Increase Contrast enabled.
+- Menu items must remain understandable if images are hidden by default in menu bar contexts.
+- Media playback screens must expose subtitle selection, respect system subtitle styles, and prefer `AVPlayerView` or standard Media Accessibility controls when possible.
+- Drag/drop, context menus, Siri/App Intents entry points, and generated actions must not depend on pointer-only gestures, animations, or purely visual state.
+- Feature names, toolbar items, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
+
 ## Output contract
 
 Your response must include:
@@ -227,4 +235,4 @@ These references represent the primary sources used when evaluating and prioriti
 
 ## Version
 
-1.2.0
+1.3.0

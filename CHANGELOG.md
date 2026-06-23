@@ -6,6 +6,9 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed
+- Updated SwiftUI, UIKit, and AppKit accessibility auditor skills with WWDC26 / SDK 2027 readiness checks for resizable layouts, Liquid Glass legibility, media subtitles, clearer labels, and non-touch interaction paths.
+
 ## [1.2.0] - 2026-05-23
 
 ### Changed

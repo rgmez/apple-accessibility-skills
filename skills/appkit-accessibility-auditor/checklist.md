@@ -55,6 +55,14 @@ Use VoiceOver and keyboard navigation as primary validation tools.
 - [ ] States are not conveyed by color alone
 - [ ] Icons, text, or VoiceOver cues reinforce state
 
+## WWDC26 / SDK 2027 Readiness
+- [ ] Resizable windows, sidebars, toolbars, and changing content areas preserve keyboard and VoiceOver order
+- [ ] Liquid Glass, updated window chrome, and translucent materials remain legible with Reduce Transparency and Increase Contrast
+- [ ] Menu items remain understandable if images are hidden in menu bar contexts
+- [ ] Media screens expose subtitle selection and respect system subtitle styles
+- [ ] Drag/drop, context menus, Siri/App Intents entry points, and generated actions remain usable without pointer-only interaction
+- [ ] Feature, toolbar, menu, and action names are clear, localizable, and usable with Voice Control
+
 ---
 
 ## Final validation

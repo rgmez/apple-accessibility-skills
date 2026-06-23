@@ -1,7 +1,7 @@
 ---
 name: swiftui-accessibility-auditor
 description: Audit SwiftUI views for accessibility (iOS + macOS) with patch-ready fixes
-version: 1.2.0
+version: 1.3.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -87,6 +87,14 @@ If context is missing, assume the simplest intent and provide alternatives.
 - Avoid aggressive animations.
 - Respect Reduce Motion preferences.
 
+### WWDC26 / 2027 SDK readiness
+- Resizable windows, iPhone Mirroring, iPad windowing, and toolbar overflow/minimization must preserve readable text, logical focus, and stable VoiceOver order.
+- Liquid Glass materials, scroll edge effects, and translucent backgrounds must remain legible with Reduce Transparency and Increase Contrast enabled.
+- Reorderable containers, swipe actions outside `List`, drag/drop, and gesture-first flows must expose equivalent accessible actions.
+- Media playback screens must provide subtitle selection, respect system subtitle styles, and prefer standard playback controls when possible.
+- Feature names, tabs, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
+- App Intents, Siri, or view annotations should use names and entities that make sense without relying only on visual context.
+
 ## Output contract
 
 Your response must include:
@@ -139,4 +147,4 @@ These references represent the primary sources used when evaluating and prioriti
 
 ## Version
 
-1.2.0
+1.3.0
