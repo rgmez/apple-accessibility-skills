@@ -12,6 +12,15 @@ This repository gives you practical audit skills for Apple UI frameworks:
 
 The goal is simple: find real issues early, propose minimal fixes, and keep behavior stable.
 
+## Current coverage
+
+The skills audit core Apple accessibility concerns and newer platform risks:
+
+- VoiceOver, Voice Control, Switch Control, keyboard navigation, and Dynamic Type
+- semantic labels, traits, grouping, reading order, state, and custom actions
+- contrast, non-color cues, touch targets, motion preferences, and readable materials
+- WWDC26 / SDK 2027 readiness for resizable layouts, iPhone Mirroring, Liquid Glass, media subtitles, clearer labels, and non-touch interaction paths
+
 ## Quick rules
 
 - Prioritize user impact over stylistic preferences.
