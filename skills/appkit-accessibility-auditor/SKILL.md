@@ -1,6 +1,6 @@
 ---
 name: appkit-accessibility-auditor
-description: Audit macOS AppKit interfaces for accessibility, focusing on VoiceOver, keyboard navigation, and semantics
+description: Audits macOS AppKit interfaces for VoiceOver, keyboard navigation, focus order, and semantic structure issues. Use when reviewing or fixing AppKit accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
 version: 1.3.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---

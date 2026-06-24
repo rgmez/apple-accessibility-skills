@@ -1,6 +1,6 @@
 ---
 name: uikit-accessibility-auditor
-description: Audit UIKit-based screens for accessibility issues with concrete VoiceOver and Dynamic Type fixes
+description: Audits UIKit screens on iOS and iPadOS for VoiceOver, Dynamic Type, Voice Control, Switch Control, and semantic structure issues. Use when reviewing or fixing UIKit accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
 version: 1.3.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
