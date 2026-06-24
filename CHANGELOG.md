@@ -6,6 +6,11 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-06-24
+
+### Changed
+- Expanded SKILL.md frontmatter descriptions for SwiftUI, UIKit, and AppKit accessibility auditor skills to improve discoverability in Dispatch, Claude Code, and other skill runtimes.
+
 ## [1.3.0] - 2026-06-23
 
 ### Changed
