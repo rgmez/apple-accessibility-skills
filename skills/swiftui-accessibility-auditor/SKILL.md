@@ -1,6 +1,6 @@
 ---
 name: swiftui-accessibility-auditor
-description: Audit SwiftUI views for accessibility (iOS + macOS) with patch-ready fixes
+description: Audits SwiftUI views on iOS, iPadOS, and macOS for VoiceOver, Dynamic Type, keyboard focus, and semantic structure issues. Use when reviewing or fixing SwiftUI accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
 version: 1.3.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
