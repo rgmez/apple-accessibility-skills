@@ -6,6 +6,8 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-08-05
+
 ### Changed
 - Expanded WWDC26 accessibility guidance for SwiftUI, UIKit, and AppKit with reading experience checks, custom control direct-touch guidance, and richer purpose/value/action/feedback validation.
 
