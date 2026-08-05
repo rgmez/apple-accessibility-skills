@@ -15,6 +15,12 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 - [ ] Reading order matches the visual and logical layout
 - [ ] Custom tappable views expose both button semantics and an activation action
 
+## Reading & Text Experiences
+- [ ] Long-form text supports granular navigation, continuous reading, and text selection where relevant
+- [ ] Standard accessible text views are preferred over custom-rendered text when possible
+- [ ] Separate text regions preserve read-all flow across pages or sections
+- [ ] Custom-rendered text exposes enough structure for VoiceOver, Speak Screen, and Accessibility Reader
+
 ## Dynamic Type
 - [ ] Text scales correctly up to the largest accessibility sizes
 - [ ] Important information is not lost due to truncation
@@ -50,7 +56,8 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 ## WWDC26 / SDK 2027 Readiness
 - [ ] Resizing, iPhone Mirroring, iPad windowing, and toolbar overflow keep text readable and focus order stable
 - [ ] Liquid Glass, translucent materials, and scroll edge effects remain legible with Reduce Transparency and Increase Contrast
-- [ ] Reorder, drag/drop, swipe actions, and gesture-first flows expose accessible alternatives
+- [ ] Reorder, drag/drop, swipe actions, and gesture-first flows expose purpose, value, actions, and feedback
+- [ ] Direct touch is used only for gesture-heavy surfaces that need it and requires explicit activation where appropriate
 - [ ] Media screens expose subtitle selection and respect system subtitle styles
 - [ ] Feature, tab, menu, and action names are clear, localizable, and usable with Voice Control
 

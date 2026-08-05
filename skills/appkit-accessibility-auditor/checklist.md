@@ -36,11 +36,19 @@ Use VoiceOver and keyboard navigation as primary validation tools.
 - [ ] Controls are operable via keyboard (Space / Enter)
 - [ ] Controls expose an accessibility press/action path where applicable
 - [ ] State changes provide clear feedback
+- [ ] Complex custom controls expose purpose, value/state, available actions, and interaction feedback
+- [ ] Gesture recognizers, context menus, selection, and drag/drop preserve keyboard and accessibility action paths
 
 ## Voice Control & Switch Control
 - [ ] Voice Control can identify controls by clear, non-duplicated names
 - [ ] Switch Control can reach interactive elements in a logical scan order
 - [ ] Grouping reduces unnecessary scan stops without hiding actions
+
+## Reading & Text Experiences
+- [ ] Long-form text supports granular navigation, continuous reading, and text selection where relevant
+- [ ] `NSTextView` or standard text views are preferred over custom-rendered text when possible
+- [ ] Custom-rendered text or scanned pages expose text structure instead of a single image/group
+- [ ] Page turns and separate text regions preserve read-all flow for VoiceOver, Speak Screen, and Accessibility Reader where available
 
 ## Text & Scaling
 - [ ] Text is readable at larger display or font scales
@@ -60,7 +68,7 @@ Use VoiceOver and keyboard navigation as primary validation tools.
 - [ ] Liquid Glass, updated window chrome, and translucent materials remain legible with Reduce Transparency and Increase Contrast
 - [ ] Menu items remain understandable if images are hidden in menu bar contexts
 - [ ] Media screens expose subtitle selection and respect system subtitle styles
-- [ ] Drag/drop, context menus, Siri/App Intents entry points, and generated actions remain usable without pointer-only interaction
+- [ ] Drag/drop, context menus, Siri/App Intents entry points, and generated actions expose purpose, value, actions, and feedback without pointer-only interaction
 - [ ] Feature, toolbar, menu, and action names are clear, localizable, and usable with Voice Control
 
 ---

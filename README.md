@@ -18,8 +18,9 @@ The skills audit core Apple accessibility concerns and newer platform risks:
 
 - VoiceOver, Voice Control, Switch Control, keyboard navigation, and Dynamic Type
 - semantic labels, traits, grouping, reading order, state, and custom actions
+- long-form reading experiences, text selection, continuous reading, and custom-rendered text
 - contrast, non-color cues, touch targets, motion preferences, and readable materials
-- WWDC26 / SDK 2027 readiness for resizable layouts, iPhone Mirroring, Liquid Glass, media subtitles, clearer labels, and non-touch interaction paths
+- WWDC26 / SDK 2027 readiness for resizable layouts, iPhone Mirroring, Liquid Glass, media subtitles, clearer labels, direct touch, and non-touch interaction paths
 
 ## Quick rules
 

@@ -32,12 +32,20 @@ Use VoiceOver, Dynamic Type, and touch interaction to validate behavior.
 - [ ] Custom hit areas respond consistently
 - [ ] Interactive elements are discoverable via VoiceOver
 - [ ] Custom gesture-driven controls expose an accessible activation path
+- [ ] Custom controls expose purpose, value/state, available actions, and interaction feedback
+- [ ] Direct interaction is reserved for controls that genuinely need raw gestures
 
 ## Voice Control, Switch Control & Keyboard
 - [ ] Voice Control "Show names" exposes clear, non-duplicated labels
 - [ ] Switch Control can reach controls in a logical scan order
 - [ ] Full Keyboard Access can focus and activate interactive elements
 - [ ] Secondary actions are exposed through custom actions when hidden behind gestures
+
+## Reading & Text Experiences
+- [ ] Long-form text supports granular navigation, continuous reading, and text selection where relevant
+- [ ] `UITextView` or standard text views are preferred over custom-rendered text when possible
+- [ ] Custom-rendered text or scanned pages expose text structure instead of a single image/label
+- [ ] Page turns and separate text regions preserve read-all flow for VoiceOver, Speak Screen, and Accessibility Reader
 
 ## Screen Changes & Announcements
 - [ ] Screen transitions are announced when appropriate
@@ -54,7 +62,7 @@ Use VoiceOver, Dynamic Type, and touch interaction to validate behavior.
 - [ ] Tab/sidebar changes, prominent tabs, navigation bar minimization, and menu image visibility do not hide important actions
 - [ ] Liquid Glass, translucent materials, and scroll edge effects remain legible with Reduce Transparency and Increase Contrast
 - [ ] Media screens expose subtitle selection and respect system subtitle styles
-- [ ] Drag/drop, context menus, Siri/App Intents entry points, and generated actions remain usable without touch-only interaction
+- [ ] Drag/drop, context menus, Siri/App Intents entry points, and generated actions expose purpose, value, actions, and feedback without touch-only interaction
 
 ---
 

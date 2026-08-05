@@ -1,7 +1,7 @@
 ---
 name: swiftui-accessibility-auditor
 description: Audits SwiftUI views on iOS, iPadOS, and macOS for VoiceOver, Dynamic Type, keyboard focus, and semantic structure issues. Use when reviewing or fixing SwiftUI accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
-version: 1.3.0
+version: 1.4.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -64,6 +64,17 @@ If context is missing, assume the simplest intent and provide alternatives.
 - Custom tappable views using `.onTapGesture` must remain operable through assistive technologies. Prefer `Button` when it preserves behavior; otherwise add an explicit `.accessibilityAction`.
 - Use `.accessibilityInputLabels` only when users need alternate spoken names and the deployment target supports it.
 
+### Reading and text experiences
+- Long-form or paginated text must support granular navigation, continuous reading, and text selection where the product experience requires reading.
+- Prefer standard accessible text views such as `TextEditor` or selectable `Text` before building custom-rendered text.
+- Separate text elements that form one reading flow should be linked or ordered so VoiceOver and Speak Screen can continue without dead stops.
+- Page turns, document boundaries, and custom-rendered text should expose enough structure for VoiceOver, Speak Screen, and Accessibility Reader.
+
+Tools to consider:
+- `TextEditor` or selectable `Text` for standard reading behavior
+- `accessibilityLinkedGroup(id:in:)` when separate text elements belong to one reading flow and the deployment target supports it
+- page-turn traits or actions when paginated content must continue read-all behavior
+
 ### Dynamic Type
 - Avoid fixed font sizes.
 - Ensure layouts work at extreme accessibility sizes.
@@ -90,7 +101,8 @@ If context is missing, assume the simplest intent and provide alternatives.
 ### WWDC26 / 2027 SDK readiness
 - Resizable windows, iPhone Mirroring, iPad windowing, and toolbar overflow/minimization must preserve readable text, logical focus, and stable VoiceOver order.
 - Liquid Glass materials, scroll edge effects, and translucent backgrounds must remain legible with Reduce Transparency and Increase Contrast enabled.
-- Reorderable containers, swipe actions outside `List`, drag/drop, and gesture-first flows must expose equivalent accessible actions.
+- Reorderable containers, swipe actions outside `List`, drag/drop, and gesture-first flows must expose purpose, value, actions, and feedback through assistive technologies.
+- Gesture-heavy surfaces should use direct touch only when standard actions cannot model the interaction, and should require explicit activation when appropriate.
 - Media playback screens must provide subtitle selection, respect system subtitle styles, and prefer standard playback controls when possible.
 - Feature names, tabs, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
 - App Intents, Siri, or view annotations should use names and entities that make sense without relying only on visual context.
@@ -145,6 +157,15 @@ These references represent the primary sources used when evaluating and prioriti
 - Supporting Dynamic Type in SwiftUI  
   https://developer.apple.com/documentation/swiftui/dynamic-type
 
+- WWDC26 – Refine accessibility for custom controls
+  https://developer.apple.com/videos/play/wwdc2026/220/
+
+- WWDC26 – Enhance the accessibility of your reading app
+  https://developer.apple.com/videos/play/wwdc2026/219/
+
+- WWDC26 – Discover generated subtitles and subtitle styles
+  https://developer.apple.com/videos/play/wwdc2026/256/
+
 ## Version
 
-1.3.0
+1.4.0

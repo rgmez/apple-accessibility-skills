@@ -1,7 +1,7 @@
 ---
 name: appkit-accessibility-auditor
 description: Audits macOS AppKit interfaces for VoiceOver, keyboard navigation, focus order, and semantic structure issues. Use when reviewing or fixing AppKit accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
-version: 1.3.0
+version: 1.4.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -106,6 +106,8 @@ If a custom `NSView` behaves like a button/checkbox/toggle:
 - It must be reachable and operable via keyboard.
 - It must provide feedback when activated or state changes.
 - It must expose an accessibility action so VoiceOver users can activate it directly.
+- Complex custom controls should expose their purpose, current value/state, available actions, and interaction feedback.
+- Gesture recognizers, context menus, selection, and drag/drop should not replace keyboard or accessibility action paths.
 
 Tools to consider:
 - `accessibilityPerformPress()` / action equivalents where appropriate
@@ -113,13 +115,24 @@ Tools to consider:
 - Keyboard handling (`keyDown(with:)`) aligned with standard controls (Space/Enter)
 - `isAccessibilityElement()` for custom views that should be announced as one element
 
-### F) Dynamic Type / font scaling (macOS)
+### F) Reading and text experiences
+- Long-form or paginated text must support granular navigation, continuous reading, and text selection where the product experience requires reading.
+- Prefer `NSTextView` or SwiftUI text views that already support accessible reading behavior before building custom-rendered text.
+- Custom-rendered text, scanned pages, or canvas-like reading surfaces should expose text structure instead of a single image or generic group.
+- Page turns, document boundaries, and separate text regions should preserve read-all flow for VoiceOver, Speak Screen, and Accessibility Reader where available.
+
+Tools to consider:
+- `NSTextView` for standard accessible reading, navigation, and selection behavior
+- SwiftUI `TextEditor` or selectable `Text` when embedded SwiftUI is appropriate
+- text navigation linkage or explicit actions when separate regions form one reading flow
+
+### G) Dynamic Type / font scaling (macOS)
 macOS doesn’t mirror iOS Dynamic Type in the same way, but you should still:
 - Avoid hard-coded tiny fonts that can’t be scaled or read.
 - Prefer system fonts and text styles where possible.
 - Ensure layout doesn’t clip text at larger font sizes or when users increase display scaling.
 
-### G) Announcements for content changes
+### H) Announcements for content changes
 When content updates without an obvious focus change (loading results, filtering, validations):
 - Announce the change or move focus to the updated region appropriately.
 
@@ -127,21 +140,21 @@ Tools to consider:
 - `NSAccessibility.post(element:notification:)`
 - Use the most appropriate notification (e.g., layout/screen changes) and avoid spamming announcements
 
-### H) Voice Control and Switch Control
+### I) Voice Control and Switch Control
 - Voice Control should expose clear, non-duplicated names for interactive elements.
 - Switch Control should reach controls in a logical order without excessive scan stops.
 - Secondary or gesture-only actions should be exposed as accessibility actions where possible.
 
-### I) Color, contrast, and non-color cues
+### J) Color, contrast, and non-color cues
 - Do not rely on color alone for status (error/success/selection).
 - Provide icons, text, or VoiceOver cues for state.
 
-### J) WWDC26 / 2027 SDK readiness
+### K) WWDC26 / 2027 SDK readiness
 - Resizable windows, sidebars, toolbars, and changing content areas must preserve keyboard navigation, focus order, and VoiceOver reading order.
 - Liquid Glass materials, updated window chrome, and translucent surfaces must remain legible with Reduce Transparency and Increase Contrast enabled.
 - Menu items must remain understandable if images are hidden by default in menu bar contexts.
 - Media playback screens must expose subtitle selection, respect system subtitle styles, and prefer `AVPlayerView` or standard Media Accessibility controls when possible.
-- Drag/drop, context menus, Siri/App Intents entry points, and generated actions must not depend on pointer-only gestures, animations, or purely visual state.
+- Drag/drop, context menus, Siri/App Intents entry points, and generated actions must expose purpose, value, actions, and feedback without depending on pointer-only gestures, animations, or purely visual state.
 - Feature names, toolbar items, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
 
 ## Output contract
@@ -233,6 +246,18 @@ These references represent the primary sources used when evaluating and prioriti
 - Keyboard Navigation and Focus (macOS)  
   https://developer.apple.com/documentation/appkit/nsresponder
 
+- WWDC26 – Modernize your AppKit app
+  https://developer.apple.com/videos/play/wwdc2026/289/
+
+- WWDC26 – Refine accessibility for custom controls
+  https://developer.apple.com/videos/play/wwdc2026/220/
+
+- WWDC26 – Enhance the accessibility of your reading app
+  https://developer.apple.com/videos/play/wwdc2026/219/
+
+- WWDC26 – Discover generated subtitles and subtitle styles
+  https://developer.apple.com/videos/play/wwdc2026/256/
+
 ## Version
 
-1.3.0
+1.4.0

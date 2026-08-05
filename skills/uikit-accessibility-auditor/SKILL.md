@@ -1,7 +1,7 @@
 ---
 name: uikit-accessibility-auditor
 description: Audits UIKit screens on iOS and iPadOS for VoiceOver, Dynamic Type, Voice Control, Switch Control, and semantic structure issues. Use when reviewing or fixing UIKit accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
-version: 1.3.0
+version: 1.4.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -91,14 +91,28 @@ Tools to consider:
 - If a view is tappable, it must behave like a control for accessibility.
 - Ensure hit targets are large enough and don’t require pixel-perfect taps.
 - Custom gesture-driven controls must provide an accessible activation path.
+- Custom controls should expose their purpose, current value/state, available actions, and feedback after interaction.
+- Use direct interaction support only for controls that genuinely need raw gestures; prefer custom actions for discrete operations.
 
 Tools to consider:
 - `point(inside:with:)` override to expand tappable area (when needed)
 - `accessibilityFrameInContainerSpace` for custom layouts (only when required)
 - `accessibilityActivate()` for custom `UIView` controls that behave like buttons
 - `accessibilityCustomActions` for secondary actions hidden behind gestures or cell buttons
+- `UIAccessibilityTraits.allowsDirectInteraction` only for direct-touch surfaces where standard activation/custom actions are insufficient
 
-### E) Dynamic Type
+### E) Reading and text experiences
+- Long-form or paginated text must support granular navigation, continuous reading, and text selection where the product experience requires reading.
+- Prefer `UITextView` or other standard text views that already support accessible text navigation and selection.
+- Custom-rendered text, scanned pages, or canvas-like reading surfaces should adopt text input/accessibility APIs instead of exposing the page as a single image or label.
+- Page turns, document boundaries, and separate text regions should preserve read-all flow for VoiceOver, Speak Screen, and Accessibility Reader.
+
+Tools to consider:
+- `UITextView` and `UITextInput` for granular accessible text navigation and selection
+- `UITextInteraction` when custom text needs visible selection behavior
+- text navigation linkage and page-turn traits/actions when the deployment target supports them
+
+### F) Dynamic Type
 - Text must scale with the user’s content size category.
 
 Tools to consider:
@@ -107,7 +121,7 @@ Tools to consider:
 - Using text styles (`UIFont.preferredFont(forTextStyle:)`) where possible
 - Ensure constraints support larger text (avoid clipping/truncation hiding meaning)
 
-### F) Screen changes and announcements
+### G) Screen changes and announcements
 - When a screen changes or content updates dynamically, announce it appropriately.
 
 Tools to consider:
@@ -115,7 +129,7 @@ Tools to consider:
 - `UIAccessibility.post(notification: .layoutChanged, argument: ...)`
 - `UIAccessibility.post(notification: .announcement, argument: ...)` (use sparingly)
 
-### G) Voice Control, Switch Control, and keyboard
+### H) Voice Control, Switch Control, and keyboard
 - Voice Control should expose clear, non-duplicated names for interactive elements.
 - Switch Control should reach controls in a logical scan order without excessive stops.
 - Full Keyboard Access should reach and activate controls without requiring touch-only gestures.
@@ -125,21 +139,21 @@ Tools to consider:
 - `accessibilityCustomActions` for secondary actions in cells or custom controls
 - Grouping related content while preserving discoverable actions
 
-### H) Color, contrast, and non-color cues
+### I) Color, contrast, and non-color cues
 - Do not rely on color alone to convey error/success/selection.
 - Add text, iconography, or VoiceOver cues for state.
 
-### I) Accessibility identifiers (optional)
+### J) Accessibility identifiers (optional)
 - Use identifiers for UI tests (not VoiceOver), but do not confuse them with labels.
 - Only recommend `accessibilityIdentifier` when it clearly improves testability.
 
-### J) WWDC26 / 2027 SDK readiness
+### K) WWDC26 / 2027 SDK readiness
 - Resizable iPhone apps, iPhone Mirroring, and iPad windowing must preserve Dynamic Type, focus order, VoiceOver order, and Full Keyboard Access.
 - Avoid accessibility or layout decisions that depend on `UIScreen.main`, fixed screen bounds, user interface idiom, or interface orientation; prefer scene, trait, and view-size context.
 - Tab/sidebar changes, prominent tabs, navigation bar minimization, and menu image visibility must not hide important actions from assistive technologies.
 - Liquid Glass materials, scroll edge effects, and translucent surfaces must remain legible with Reduce Transparency and Increase Contrast enabled.
 - Media playback screens must expose subtitle selection, respect system subtitle styles, and prefer `AVPlayerViewController`, `AVLegibleMediaOptionsMenuController`, or equivalent standard controls when possible.
-- Drag/drop, context menus, Siri/App Intents entry points, and generated actions must not depend on touch-only gestures, animations, or purely visual state.
+- Drag/drop, context menus, Siri/App Intents entry points, and generated actions must expose purpose, value, actions, and feedback without depending on touch-only gestures, animations, or purely visual state.
 - Feature names, tabs, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
 
 ## Output contract
@@ -231,6 +245,18 @@ These references represent the primary sources used when evaluating and prioriti
 - Supporting Dynamic Type in UIKit  
   https://developer.apple.com/documentation/uikit/uifontmetrics
 
+- WWDC26 – Modernize your UIKit app
+  https://developer.apple.com/videos/play/wwdc2026/278/
+
+- WWDC26 – Refine accessibility for custom controls
+  https://developer.apple.com/videos/play/wwdc2026/220/
+
+- WWDC26 – Enhance the accessibility of your reading app
+  https://developer.apple.com/videos/play/wwdc2026/219/
+
+- WWDC26 – Discover generated subtitles and subtitle styles
+  https://developer.apple.com/videos/play/wwdc2026/256/
+
 ## Version
 
-1.3.0
+1.4.0
