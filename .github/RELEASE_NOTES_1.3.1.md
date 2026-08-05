@@ -1,6 +1,6 @@
 ## Summary
 
-- Expanded SKILL.md frontmatter descriptions for all three accessibility checklists to improve discoverability in Dispatch, Claude Code, and other skill runtimes.
+- Expanded SKILL.md frontmatter descriptions for all three accessibility auditor skills to improve discoverability in Dispatch, Claude Code, and other skill runtimes.
 - Clarified scope, trigger scenarios, and expected output (P0/P1/P2 findings with patch-ready fixes and manual verification steps).
 - No changes to audit behavior, output contract, or checklists.
 
