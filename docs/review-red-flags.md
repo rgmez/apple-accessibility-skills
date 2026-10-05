@@ -25,5 +25,7 @@ Use this sheet during PR review to catch common low-signal or risky patterns.
 
 - P0 issues are clearly blocked and justified.
 - P1 issues are actionable with patch-ready edits.
-- Suggested changes include manual validation steps.
+- Suggested changes reference the skill-relative checklist, include concrete manual steps and expected outcomes, and state regression risk.
+- Automated audit results are not presented as proof of complete accessibility.
+- OS/platform availability is explicit for newer APIs; pending runtime checks are identified.
 - No speculative APIs or architecture detours.

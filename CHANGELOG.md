@@ -6,6 +6,20 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-10-05
+
+### Added
+- Accessibility Inspector and optional audits in compatible existing UI test targets, with explicit separation of executed and pending manual checks.
+- Conditional Assistive Access guidance for iOS/iPadOS and evidence-based Accessibility Nutrition Labels evaluation for release reviews.
+- Edit rotor categories for selected-text custom actions and SwiftUI initial accessibility focus guidance.
+
+### Changed
+- Completed WWDC26 guidance for custom controls, linked reading navigation, full custom text input support, generated subtitles, and in-player subtitle style previews.
+- Replaced ambiguous SDK-year guidance with documented OS/platform availability, including iOS 27 linked text and iOS/macOS 27 generated subtitles.
+- Clarified grouping semantics, trait preservation during UIKit cell reuse, AppKit announcement notifications, and skill-relative checklist references.
+- Corrected examples to preserve the plan renewal text, avoid an unsupported button role on summary cells, and provide concrete verification outcomes and regression risks.
+- Updated all three skill versions to `1.5.0`.
+
 ## [1.4.0] - 2026-08-05
 
 ### Changed

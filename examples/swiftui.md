@@ -87,7 +87,6 @@ Audit this row for VoiceOver semantics and reading order. Provide a minimal patc
 + .contentShape(Rectangle())
 + .accessibilityElement(children: .combine)
 + .accessibilityAddTraits(.isButton)
-+ .accessibilityLabel("Pro Plan")
 + .accessibilityHint("Opens plan details")
 + .accessibilityAction { openPlanDetails() }
 ```
@@ -139,7 +138,11 @@ Audit this layout for large Dynamic Type sizes. Suggest minimal changes to avoid
 ---
 
 ## Manual verification
-After applying changes, validate using:
-- VoiceOver (iOS) / VoiceOver (macOS)
-- Large Dynamic Type (AX sizes)
-- Keyboard navigation on macOS (Tab/Shift-Tab where applicable)
+Use the relevant checks in [the SwiftUI checklist](../skills/swiftui-accessibility-auditor/checklist.md).
+- With VoiceOver enabled, navigate to Save and activate it: it announces its purpose and saves once.
+- Navigate to the plan row: it announces both “Pro Plan” and “Renews monthly”; activation opens details once.
+- At the largest accessibility text size, verify that the total remains fully readable; removing `lineLimit` alone may not solve a constrained layout.
+- Use Voice Control and Switch Control on the changed controls; verify clear names, reachable actions, and one activation per request.
+- On macOS/iPadOS, verify keyboard access where applicable. The gesture-based row patch supplies a VoiceOver action, but a native `Button` is preferable if keyboard activation is also required.
+
+Regression risk: grouping or explicit labels can hide content/actions; changes to hit areas or text wrapping can affect layout. These are expected checks, not recorded test results.

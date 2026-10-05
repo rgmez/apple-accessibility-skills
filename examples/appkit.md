@@ -129,6 +129,10 @@ Audit a view-based NSTableView row for VoiceOver comprehension. Suggest a concis
 ---
 
 ## Manual verification
-- VoiceOver (macOS): reading order + roles
-- Keyboard navigation: Tab/Shift-Tab, arrows in tables
-- Focus ring visibility on interactive elements
+Use the relevant checks in [the AppKit checklist](../skills/appkit-accessibility-auditor/checklist.md).
+- With VoiceOver enabled, navigate to Settings and activate it: the purpose is announced and the settings flow opens once.
+- Tab/Shift-Tab to the custom card and use Space/Return; verify the action fires once and that keyboard focus is visible. The outline above still needs focus-ring drawing if the component does not supply it.
+- Read invoice rows with VoiceOver and change selection with arrow keys: number, due date, amount, and selected state remain discoverable.
+- Use Voice Control and Switch Control to reach changed controls and activate their exposed actions.
+
+Regression risk: custom keyboard handling must preserve unhandled keys and disabled-state behavior. Grouping must not hide independent row controls. These are expected checks, not recorded test results.

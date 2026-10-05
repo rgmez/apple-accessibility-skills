@@ -64,4 +64,4 @@ Each response must end with:
 - expected accessibility outcomes
 - explicit note on regression risk
 
-Skill responses should reference the skill-specific `checklist.md` as required validation.
+Skill responses should reference the skill-relative `checklist.md` and select checks relevant to the finding. This is a validation reference, not a request to create files in the audited project. Distinguish performed checks from pending checks and code-level evidence from runtime evidence.

@@ -64,10 +64,9 @@ Audit this UITableViewCell for VoiceOver navigation. Suggest grouping and an acc
 **P1**
 - Multiple labels create too many VoiceOver stops; the cell should expose a concise summary.
 
-**Suggested patch (typical approach)**
+**Suggested patch (for a summary cell without independently actionable children)**
 ```diff
 +isAccessibilityElement = true
-+accessibilityTraits = [.button]
 +accessibilityLabel = "Invoice number 42"
 +accessibilityValue = "Due in 7 days. Amount €320.00"
 +titleLabel.isAccessibilityElement = false
@@ -114,6 +113,10 @@ Audit for Dynamic Type support and provide a minimal fix using UIFontMetrics.
 ---
 
 ## Manual verification
-- VoiceOver: navigation order + announcements
-- Dynamic Type: largest sizes
-- Tap targets: comfortable hit areas
+Use the relevant checks in [the UIKit checklist](../skills/uikit-accessibility-auditor/checklist.md).
+- With VoiceOver enabled, activate Share: it announces “Share” and opens the share flow once.
+- Navigate to the invoice cell: its number, due date, and amount are available. Verify selected state after selection and cell reuse.
+- At the largest Dynamic Type sizes, verify both custom-font labels grow without clipping essential content.
+- Use Voice Control, Switch Control, and Full Keyboard Access to reach and activate changed controls.
+
+Regression risk: grouping hides child elements. Keep independent controls reachable; only add the `.button` trait with `accessibilityTraits.insert(.button)` if the cell actually activates an action, and synchronize selection/disabled traits with its state. These are expected checks, not recorded test results.

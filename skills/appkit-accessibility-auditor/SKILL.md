@@ -1,7 +1,7 @@
 ---
 name: appkit-accessibility-auditor
 description: Audits macOS AppKit interfaces for VoiceOver, keyboard navigation, focus order, and semantic structure issues. Use when reviewing or fixing AppKit accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
-version: 1.4.0
+version: 1.5.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -51,7 +51,7 @@ If context is missing, assume the simplest intent and provide safe alternatives.
 - Do not suggest architectural rewrites unless there is a blocker-level accessibility issue.
 - Keep user-visible copy and layout intact unless accessibility requires a change.
 - Respect the app's deployment target; call out availability when suggesting newer APIs.
-- State assumptions explicitly when context is missing.
+- State assumptions explicitly when context is missing. Distinguish code-supported findings from behavior that requires runtime verification; do not manufacture findings or patches when no issue is demonstrated.
 
 ## Audit checklist
 
@@ -82,7 +82,7 @@ Tools to consider:
 ### C) Grouping and reading order
 - Avoid too many VoiceOver stops in dense layouts.
 - Group related content (title + subtitle + value) when it improves comprehension.
-- Ensure logical reading order (left-to-right, top-to-bottom) for custom stacks/grids.
+- Ensure logical reading order for the language and layout direction in custom stacks/grids. Preserve independently actionable children and avoid unnecessary levels of nested containers.
 
 Tools to consider:
 - `setAccessibilityChildren(_:)` / `accessibilityChildren`
@@ -108,6 +108,8 @@ If a custom `NSView` behaves like a button/checkbox/toggle:
 - It must expose an accessibility action so VoiceOver users can activate it directly.
 - Complex custom controls should expose their purpose, current value/state, available actions, and interaction feedback.
 - Gesture recognizers, context menus, selection, and drag/drop should not replace keyboard or accessibility action paths.
+- For custom sliders or other adjustable controls, expose the current value, supported increment/decrement actions, and feedback after each meaningful change.
+- For multidimensional or gesture-driven controls, expose named accessibility actions and keyboard equivalents instead of relying on pointer movement alone.
 
 Tools to consider:
 - `accessibilityPerformPress()` / action equivalents where appropriate
@@ -124,7 +126,8 @@ Tools to consider:
 Tools to consider:
 - `NSTextView` for standard accessible reading, navigation, and selection behavior
 - SwiftUI `TextEditor` or selectable `Text` when embedded SwiftUI is appropriate
-- text navigation linkage or explicit actions when separate regions form one reading flow
+- `accessibilitySharedTextUIElements` when separate text elements must form one VoiceOver reading flow (use availability checks)
+- Platform-supported reading actions and notifications for paginated content; do not translate UIKit `.causesPageTurn` or `.screenChanged` directly into AppKit APIs
 
 ### G) Dynamic Type / font scaling (macOS)
 macOS doesn’t mirror iOS Dynamic Type in the same way, but you should still:
@@ -134,11 +137,11 @@ macOS doesn’t mirror iOS Dynamic Type in the same way, but you should still:
 
 ### H) Announcements for content changes
 When content updates without an obvious focus change (loading results, filtering, validations):
-- Announce the change or move focus to the updated region appropriately.
+- Announce meaningful changes without moving focus unnecessarily. Preserve the current task and restore focus when a modal closes or a focused element disappears.
 
 Tools to consider:
-- `NSAccessibility.post(element:notification:)`
-- Use the most appropriate notification (e.g., layout/screen changes) and avoid spamming announcements
+- `NSAccessibility.post(element:notification:)` with the appropriate AppKit notification for a structural or value change
+- `NSAccessibility.post(element:notification:userInfo:)` with `.announcementRequested` and a localized `.announcement` entry for spoken feedback; include an appropriate `.priority` and avoid repeated announcements
 
 ### I) Voice Control and Switch Control
 - Voice Control should expose clear, non-duplicated names for interactive elements.
@@ -149,13 +152,19 @@ Tools to consider:
 - Do not rely on color alone for status (error/success/selection).
 - Provide icons, text, or VoiceOver cues for state.
 
-### K) WWDC26 / 2027 SDK readiness
+### K) WWDC26 / OS 27 readiness
 - Resizable windows, sidebars, toolbars, and changing content areas must preserve keyboard navigation, focus order, and VoiceOver reading order.
 - Liquid Glass materials, updated window chrome, and translucent surfaces must remain legible with Reduce Transparency and Increase Contrast enabled.
 - Menu items must remain understandable if images are hidden by default in menu bar contexts.
 - Media playback screens must expose subtitle selection, respect system subtitle styles, and prefer `AVPlayerView` or standard Media Accessibility controls when possible.
+- On macOS 27 or later, expose supported generated or translated subtitle tracks and identify them clearly in custom menus.
+- Provide subtitle-style preview during playback through `AVPlayerView`, `AVLegibleMediaOptionsMenuController`, or an equivalent accessible custom flow.
+- Availability-gate newer media APIs and preserve authored-subtitle and system-style behavior on earlier macOS releases.
 - Drag/drop, context menus, Siri/App Intents entry points, and generated actions must expose purpose, value, actions, and feedback without depending on pointer-only gestures, animations, or purely visual state.
 - Feature names, toolbar items, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
+
+### L) Release evaluation (when in scope)
+- For App Store release evaluations, map tested core tasks to the Accessibility Nutrition Labels criteria. Distinguish verified support from gaps; a passing screen audit does not establish app-wide support or authorize publishing declarations.
 
 ## Output contract
 
@@ -190,9 +199,15 @@ Every response must include:
 - concrete manual test steps
 - expected accessibility outcomes
 - a brief regression-risk note
+- include VoiceOver Read All, text navigation across shared elements, and page-turn continuation when reading content is in scope
+- include subtitle selection, generated-track labeling, and style-preview checks when media playback is in scope
 
-Required artifact:
-- `skills/appkit-accessibility-auditor/checklist.md`
+- Use Accessibility Inspector to inspect the element tree and audit the affected screens when the app can be run.
+- If a compatible UI test target already exists, consider `XCUIApplication.performAccessibilityAudit(for:_:)` for representative screen states. Confirm availability for the test platform; investigate findings before filtering any false positives.
+- Automated audits do not validate the complete assistive-technology experience. Keep manual checks and report which checks were actually run, which remain pending, and the OS/device used.
+
+Validation reference:
+- Read [checklist.md](checklist.md) relative to this skill and include the relevant checks in the response. Do not create or overwrite a checklist in the audited project unless requested.
 
 Expectation:
 - behavior should remain unchanged except accessibility semantics and discoverability.
@@ -246,6 +261,12 @@ These references represent the primary sources used when evaluating and prioriti
 - Keyboard Navigation and Focus (macOS)  
   https://developer.apple.com/documentation/appkit/nsresponder
 
+- AppKit shared text UI elements
+  https://developer.apple.com/documentation/objectivec/nsobject-swift.class/accessibilitysharedtextuielements
+
+- AVKit legible media options menu
+  https://developer.apple.com/documentation/avkit/avlegiblemediaoptionsmenucontroller
+
 - WWDC26 – Modernize your AppKit app
   https://developer.apple.com/videos/play/wwdc2026/289/
 
@@ -258,6 +279,15 @@ These references represent the primary sources used when evaluating and prioriti
 - WWDC26 – Discover generated subtitles and subtitle styles
   https://developer.apple.com/videos/play/wwdc2026/256/
 
+- Performing accessibility audits for your app
+  https://developer.apple.com/documentation/accessibility/performing-accessibility-audits-for-your-app
+
+- WWDC25 – Evaluate your app for Accessibility Nutrition Labels
+  https://developer.apple.com/videos/play/wwdc2025/224/
+
+- AppKit announcement requests
+  https://developer.apple.com/documentation/appkit/nsaccessibility-swift.struct/notification/announcementrequested
+
 ## Version
 
-1.4.0
+1.5.0

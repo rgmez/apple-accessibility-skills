@@ -1,7 +1,7 @@
 ---
 name: uikit-accessibility-auditor
 description: Audits UIKit screens on iOS and iPadOS for VoiceOver, Dynamic Type, Voice Control, Switch Control, and semantic structure issues. Use when reviewing or fixing UIKit accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
-version: 1.4.0
+version: 1.5.0
 compatibility: [cursor, claude, codex, skills.sh]
 ---
 
@@ -50,7 +50,7 @@ If context is missing, assume the simplest intent and provide safe alternatives.
 - Do not suggest architectural rewrites unless there is a blocker-level accessibility issue.
 - Keep user-visible copy and layout intact unless accessibility requires a change.
 - Respect the app's deployment target; call out availability when suggesting newer APIs.
-- State assumptions explicitly when context is missing.
+- State assumptions explicitly when context is missing. Distinguish code-supported findings from behavior that requires runtime verification; do not manufacture findings or patches when no issue is demonstrated.
 
 ## Audit checklist
 
@@ -70,7 +70,7 @@ Common targets:
 
 ### B) Traits and roles
 - Ensure correct traits: `.button`, `.header`, `.selected`, `.notEnabled`, etc.
-- For toggles, switches, and selectable items: ensure state is discoverable.
+- For toggles, switches, and selectable items: ensure state is discoverable. Preserve existing traits and update selected/disabled state when a cell is reconfigured or reused; add `.button` only when an actual activation path exists.
 
 Tools to consider:
 - `accessibilityTraits`
@@ -80,7 +80,7 @@ Tools to consider:
 ### C) Reading order and grouping
 - Ensure a logical order of elements, especially in complex cells and stacks.
 - Group related content into a single element when it improves comprehension (e.g., title + subtitle + value).
-- Avoid “too many stops” inside a single cell unless needed.
+- Avoid “too many stops” inside a single cell unless needed. Preserve separately actionable children; summarizing the parent must not hide buttons, links, or essential values.
 
 Tools to consider:
 - `shouldGroupAccessibilityChildren`
@@ -93,6 +93,9 @@ Tools to consider:
 - Custom gesture-driven controls must provide an accessible activation path.
 - Custom controls should expose their purpose, current value/state, available actions, and feedback after interaction.
 - Use direct interaction support only for controls that genuinely need raw gestures; prefer custom actions for discrete operations.
+- For a single-axis adjustable control, expose the appropriate adjustable trait and implement increment/decrement behavior with a synchronized accessibility value.
+- For multidimensional or discrete gestures, expose named UIAccessibilityCustomAction alternatives; one adjustable action is not a substitute for a second axis.
+- If VoiceOver passthrough or direct touch is required for precision, set a meaningful accessibilityActivationPoint, rate-limit value announcements, and preserve an equivalent action path for Switch Control, Voice Control, and Full Keyboard Access.
 
 Tools to consider:
 - `point(inside:with:)` override to expand tappable area (when needed)
@@ -100,17 +103,22 @@ Tools to consider:
 - `accessibilityActivate()` for custom `UIView` controls that behave like buttons
 - `accessibilityCustomActions` for secondary actions hidden behind gestures or cell buttons
 - `UIAccessibilityTraits.allowsDirectInteraction` only for direct-touch surfaces where standard activation/custom actions are insufficient
+- `UIAccessibility.post(notification: .announcement, argument:)` for deliberate feedback during high-frequency value changes, with throttling and deduplication
 
 ### E) Reading and text experiences
 - Long-form or paginated text must support granular navigation, continuous reading, and text selection where the product experience requires reading.
 - Prefer `UITextView` or other standard text views that already support accessible text navigation and selection.
 - Custom-rendered text, scanned pages, or canvas-like reading surfaces should adopt text input/accessibility APIs instead of exposing the page as a single image or label.
 - Page turns, document boundaries, and separate text regions should preserve read-all flow for VoiceOver, Speak Screen, and Accessibility Reader.
+- Connect separate text views with `accessibilityNextTextNavigationElement` and `accessibilityPreviousTextNavigationElement` when line/word/character navigation must continue across elements.
+- For custom-rendered or scanned text, implement the full `UITextInput` contract, including text ranges, tokenizer, text geometry, and selection updates; a label or custom action alone is insufficient.
 
 Tools to consider:
 - `UITextView` and `UITextInput` for granular accessible text navigation and selection
 - `UITextInteraction` when custom text needs visible selection behavior
-- text navigation linkage and page-turn traits/actions when the deployment target supports them
+- `accessibilityNextTextNavigationElement` / `accessibilityPreviousTextNavigationElement` for cross-element reading navigation (introduced in iOS 18)
+- `.causesPageTurn` on the last text element and `accessibilityScroll(_:)` for read-all continuation across paginated content
+- `UIAccessibilityCustomAction.editCategory` for actions on selected text; preserve the superclass actions and verify discovery in the Edit rotor
 
 ### F) Dynamic Type
 - Text must scale with the user’s content size category.
@@ -147,14 +155,21 @@ Tools to consider:
 - Use identifiers for UI tests (not VoiceOver), but do not confuse them with labels.
 - Only recommend `accessibilityIdentifier` when it clearly improves testability.
 
-### K) WWDC26 / 2027 SDK readiness
+### K) WWDC26 / OS 27 readiness
 - Resizable iPhone apps, iPhone Mirroring, and iPad windowing must preserve Dynamic Type, focus order, VoiceOver order, and Full Keyboard Access.
 - Avoid accessibility or layout decisions that depend on `UIScreen.main`, fixed screen bounds, user interface idiom, or interface orientation; prefer scene, trait, and view-size context.
 - Tab/sidebar changes, prominent tabs, navigation bar minimization, and menu image visibility must not hide important actions from assistive technologies.
 - Liquid Glass materials, scroll edge effects, and translucent surfaces must remain legible with Reduce Transparency and Increase Contrast enabled.
 - Media playback screens must expose subtitle selection, respect system subtitle styles, and prefer `AVPlayerViewController`, `AVLegibleMediaOptionsMenuController`, or equivalent standard controls when possible.
+- On iOS/iPadOS 27 or later, when supported by the device, language, and media source, expose generated subtitle choices and identify translated/generated tracks clearly.
+- Provide subtitle-style preview during playback through standard AVKit/Media Accessibility controls or an equivalent accessible custom flow; do not make people leave the player to compare styles.
+- Gate newer APIs by documented OS/platform availability and retain authored-subtitle and system-style fallbacks on earlier deployment targets.
 - Drag/drop, context menus, Siri/App Intents entry points, and generated actions must expose purpose, value, actions, and feedback without depending on touch-only gestures, animations, or purely visual state.
 - Feature names, tabs, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
+
+### L) Assistive Access and release evaluation (when in scope)
+- If the app is intended to support Assistive Access, verify its essential tasks and tailored experience on iOS/iPadOS. Review the supported integration for its deployment target; the SwiftUI `AssistiveAccess` scene introduced in iOS/iPadOS 26 is not a UIKit API.
+- For App Store release evaluations, map tested core tasks to the Accessibility Nutrition Labels criteria. Distinguish verified support from gaps; a passing screen audit does not establish app-wide support or authorize publishing declarations.
 
 ## Output contract
 
@@ -189,9 +204,15 @@ Every response must include:
 - concrete manual test steps
 - expected accessibility outcomes
 - a brief regression-risk note
+- include VoiceOver Read All, Lines rotor, text selection, and cross-page continuation when reading content is in scope
+- include subtitle selection, generated-track labeling, and style-preview checks when media playback is in scope
 
-Required artifact:
-- `skills/uikit-accessibility-auditor/checklist.md`
+- Use Accessibility Inspector to inspect the element tree and audit the affected screens when the app can be run.
+- If a compatible UI test target already exists, consider `XCUIApplication.performAccessibilityAudit(for:_:)` for representative screen states. Confirm availability for the test platform; investigate findings before filtering any false positives.
+- Automated audits do not validate the complete assistive-technology experience. Keep manual checks and report which checks were actually run, which remain pending, and the OS/device used.
+
+Validation reference:
+- Read [checklist.md](checklist.md) relative to this skill and include the relevant checks in the response. Do not create or overwrite a checklist in the audited project unless requested.
 
 Expectation:
 - behavior should remain unchanged except accessibility semantics and discoverability.
@@ -245,6 +266,18 @@ These references represent the primary sources used when evaluating and prioriti
 - Supporting Dynamic Type in UIKit  
   https://developer.apple.com/documentation/uikit/uifontmetrics
 
+- UIKit text navigation elements
+  https://developer.apple.com/documentation/objectivec/nsobject-swift.class/accessibilitynexttextnavigationelement
+
+- UIKit UITextInput
+  https://developer.apple.com/documentation/uikit/uitextinput
+
+- UIKit direct interaction trait
+  https://developer.apple.com/documentation/uikit/uiaccessibilitytraits/allowsdirectinteraction
+
+- AVKit legible media options menu
+  https://developer.apple.com/documentation/avkit/avlegiblemediaoptionsmenucontroller
+
 - WWDC26 – Modernize your UIKit app
   https://developer.apple.com/videos/play/wwdc2026/278/
 
@@ -257,6 +290,18 @@ These references represent the primary sources used when evaluating and prioriti
 - WWDC26 – Discover generated subtitles and subtitle styles
   https://developer.apple.com/videos/play/wwdc2026/256/
 
+- Performing accessibility audits for your app
+  https://developer.apple.com/documentation/accessibility/performing-accessibility-audits-for-your-app
+
+- WWDC25 – Evaluate your app for Accessibility Nutrition Labels
+  https://developer.apple.com/videos/play/wwdc2025/224/
+
+- WWDC25 – Customize your app for Assistive Access
+  https://developer.apple.com/videos/play/wwdc2025/238/
+
+- UIKit custom-action edit category
+  https://developer.apple.com/documentation/uikit/uiaccessibilitycustomaction/editcategory
+
 ## Version
 
-1.4.0
+1.5.0
