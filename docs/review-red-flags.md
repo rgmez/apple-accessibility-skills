@@ -29,3 +29,7 @@ Use this sheet during PR review to catch common low-signal or risky patterns.
 - Automated audit results are not presented as proof of complete accessibility.
 - OS/platform availability is explicit for newer APIs; pending runtime checks are identified.
 - No speculative APIs or architecture detours.
+
+- P0 is not assigned solely because an explicit label/modifier is absent.
+- No-finding responses may omit patches; missing context is identified separately.
+- Native semantics and scalable custom-font behavior are checked before overrides.

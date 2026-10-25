@@ -6,6 +6,19 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-10-25
+
+### Added
+- Context-specific Apple references for native control semantics, display preferences, hover/drag alternatives, subtitle preview lifecycle, and optional beta VoiceOver automation.
+- CI validation for Agent Skills metadata and version consistency, with validator regression tests and realistic audit evaluation cases.
+
+### Changed
+- Updated all three auditors to `1.6.0`, moving version and runtime distribution metadata into standard string-valued `metadata`.
+- Allowed no-finding responses without manufactured patches and required evidence for confirmed findings and P0 severity.
+- Corrected examples with unsupported conclusions, native-label assumptions, and incomplete keyboard/focus verification.
+- Distinguished scalable font base sizes, macOS Keyboard navigation settings, and Larger Text declaration criteria from general runtime checks.
+- Corrected subtitle preview checks to allow temporary caption replacement and verify restoration on dismissal.
+
 ## [1.5.0] - 2026-10-05
 
 ### Added

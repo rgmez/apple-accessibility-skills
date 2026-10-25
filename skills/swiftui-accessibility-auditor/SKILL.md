@@ -1,8 +1,9 @@
 ---
 name: swiftui-accessibility-auditor
 description: Audits SwiftUI views on iOS, iPadOS, and macOS for VoiceOver, Dynamic Type, keyboard focus, and semantic structure issues. Use when reviewing or fixing SwiftUI accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
-version: 1.5.0
-compatibility: [cursor, claude, codex, skills.sh]
+metadata:
+  version: "1.6.0"
+  supported-runtimes: "cursor, claude, codex, skills.sh"
 ---
 
 # SwiftUI Accessibility Auditor
@@ -55,8 +56,10 @@ If context is missing, assume the simplest intent and provide alternatives.
 
 ## Audit checklist
 
+Use only the sections relevant to the supplied UI. For custom controls, media playback, display preferences, or release evaluations, also read [Apple guidance by context](references/apple-updates.md).
+
 ### VoiceOver semantics
-- Icon-only buttons must expose a meaningful accessibility label.
+- Icon-only buttons must expose a meaningful accessibility label, whether inherited or explicitly supplied. Inspect the resolved label before proposing an override; system symbols may already provide one.
 - Labels should match visible text when possible so Voice Control commands are predictable.
 - Avoid duplicated announcements.
 - Ensure logical reading order. Use `.contain` to preserve independently actionable children, `.combine` for one coherent element, and `.ignore` only when supplying a complete replacement representation. Explicit labels must preserve essential child text and state.
@@ -65,6 +68,7 @@ If context is missing, assume the simplest intent and provide alternatives.
 - Use `.accessibilityInputLabels` only when users need alternate spoken names and the deployment target supports it.
 
 ### Custom controls and gesture input
+- Prefer built-in controls with custom styles when they preserve the interaction. Otherwise consider `.accessibilityRepresentation` with a standard control bound to the same state; use `.accessibilityChildren` for synthetic child elements in custom-rendered content.
 - Translate the control's visual cues into an explicit purpose, current value or state, available actions, and feedback after interaction.
 - For a single-axis adjustable control, expose the `.adjustable` trait, implement `.accessibilityAdjustableAction`, and keep `.accessibilityValue` synchronized with every committed change.
 - For multidimensional or discrete gesture controls, prefer clearly named `.accessibilityAction` alternatives; an adjustable action models only increment and decrement on one axis.
@@ -93,19 +97,19 @@ Tools to consider:
 - UIKit/AppKit text-input APIs through representables when custom-rendered text needs line navigation, selection, and text geometry
 
 ### Dynamic Type
-- Avoid fixed font sizes.
+- Use scalable text styles or custom fonts relative to a text style; a numeric base size alone is not proof that Dynamic Type is broken.
 - Ensure layouts work at extreme accessibility sizes.
 - Avoid blanket use of `minimumScaleFactor`.
 
 ### Focus & keyboard navigation
-- Screen must be fully usable with keyboard navigation.
+- Screen must be fully usable with keyboard navigation. On macOS, enable the system Keyboard navigation setting before testing Tab/Shift-Tab; do not confuse its default configuration with an app defect.
 - Focus order must be predictable. Distinguish keyboard `@FocusState` from `@AccessibilityFocusState`; one does not configure the other.
 - On iOS/macOS 26 or later, consider `.accessibilityDefaultFocus` for a meaningful initial accessibility focus. Avoid repeatedly resetting focus during content updates; verify focus restoration after dismissing sheets or removing the focused element.
 - Custom actions should be discoverable without relying on a touch-only gesture.
 
 ### Color & contrast
 - Do not rely on color alone to convey state.
-- Prefer semantic/system colors.
+- Prefer semantic/system colors. Verify light/dark appearance, Differentiate Without Color, Increase Contrast, and Reduce Transparency while the screen is open. For custom controls also check Show Borders and Reduce Bright Effects using documented platform availability.
 
 ### Touch targets
 - Tap areas should be at least ~44x44 pt where reasonable.
@@ -114,7 +118,7 @@ Tools to consider:
 
 ### Motion
 - Avoid aggressive animations.
-- Respect Reduce Motion preferences.
+- Respect Reduce Motion preferences. Separately check Animated Images and Dim Flashing Lights for relevant content; these preferences are not interchangeable.
 
 ### WWDC26 / OS 27 readiness
 - Resizable windows, iPhone Mirroring, iPad windowing, and toolbar overflow/minimization must preserve readable text, logical focus, and stable VoiceOver order.
@@ -123,7 +127,7 @@ Tools to consider:
 - Gate newer APIs by their documented OS/platform availability, not by SDK year; preserve an accessible fallback for earlier deployment targets.
 - Media playback screens must provide subtitle selection, respect the person's system subtitle style, and prefer standard AVKit playback controls when possible.
 - On iOS/macOS 27 or later, verify generated subtitles can be selected when the device, language, and media source support them, and expose subtitle-style preview instead of forcing users to leave playback to compare styles.
-- Custom players must preserve accessible subtitle selection and style-preview behavior rather than replacing it with a visual-only menu.
+- Custom players must preserve accessible subtitle selection and style-preview behavior rather than replacing it with a visual-only menu. Preview may temporarily replace active captions: stop it when dismissed and verify captions resume. Selecting a subtitle style changes the system preference.
 - Feature names, tabs, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
 - App Intents, Siri, or view annotations should use names and entities that make sense without relying only on visual context.
 
@@ -133,13 +137,16 @@ Tools to consider:
 
 ## Output contract
 
+For confirmed findings, include the items below. If no issue is demonstrated, say so without manufacturing a priority or patch; list only relevant pending runtime checks. Missing context or a possible improvement is not a confirmed defect. P0 requires evidence that an essential task is blocked.
+
 Your response must include:
 
 1. Findings grouped by priority: P0 blocks a core task, P1 significantly degrades accessibility, and P2 covers lower-impact improvements. Tie severity to demonstrated user impact.
-2. Patch-ready code snippets
+2. Patch-ready code snippets for confirmed issues only
 3. A short manual testing checklist
 
 Each finding must include:
+- File/line or the supplied snippet location, plus the code or runtime evidence supporting the finding
 - What is wrong
 - Why it matters (1-2 lines)
 - The exact fix
@@ -154,7 +161,8 @@ Every response must include:
 - include VoiceOver Read All, Lines rotor, text selection, and cross-page continuation when reading content is in scope
 - include subtitle selection and style-preview checks when media playback is in scope
 
-- Use Accessibility Inspector to inspect the element tree and audit the affected screens when the app can be run.
+- Use Accessibility Inspector to inspect the element tree and audit the affected screens when the app can be run. Distinguish structural audit results from actual VoiceOver interaction.
+- Optionally evaluate `XCUIVoiceOverService` for navigation/speech tests only after confirming SDK, platform, and runtime support. Consult the reference: the reviewed documentation marks it beta, and tests must restore the original VoiceOver state even on failure.
 - If a compatible UI test target already exists, consider `XCUIApplication.performAccessibilityAudit(for:_:)` for representative screen states. Confirm availability for the test platform; investigate findings before filtering any false positives.
 - Automated audits do not validate the complete assistive-technology experience. Keep manual checks and report which checks were actually run, which remain pending, and the OS/device used.
 
@@ -225,4 +233,4 @@ These references represent the primary sources used when evaluating and prioriti
 
 ## Version
 
-1.5.0
+1.6.0

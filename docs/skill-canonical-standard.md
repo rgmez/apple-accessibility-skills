@@ -10,15 +10,19 @@ Each `SKILL.md` must include:
 ---
 name: <skill-name>
 description: <what it does + when to use it>
-version: 1.0.0
-compatibility: [cursor, claude, codex, skills.sh]
+metadata:
+  version: "1.6.0"
+  supported-runtimes: "cursor, claude, codex, skills.sh"
 ---
 ```
 
 Notes:
 - `name` must stay stable to avoid breaking installs.
 - `description` should be concise and action-oriented.
-- `version` tracks behavior/output contract changes.
+- `metadata.version` is a quoted semantic version tracking behavior/output changes and matches the final Version section.
+- `metadata` values must be strings. Runtime distribution information belongs here.
+- Use optional `compatibility` only as a string for actual environment requirements, not a list of products.
+- Follow the [Agent Skills specification](https://agentskills.io/specification); run `python3 scripts/validate_skills.py` with the development dependencies installed.
 
 ## Required Section Order
 
@@ -49,10 +53,13 @@ All skill files must use this order:
 Every response must include:
 
 - Findings grouped by priority (`P0`, `P1`, `P2`)
-- Patch-ready changes
+- Patch-ready changes for confirmed findings only
 - Manual verification checklist references
 
+If no issue is demonstrated, state that explicitly and provide relevant pending checks without inventing a finding or patch. Separate insufficient context from confirmed defects. P0 requires a demonstrated essential-task blocker.
+
 Each finding must include:
+- location and supporting code/runtime evidence
 - what is wrong
 - why it matters
 - exact fix

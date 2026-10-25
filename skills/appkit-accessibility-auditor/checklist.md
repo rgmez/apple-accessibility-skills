@@ -15,7 +15,7 @@ Use VoiceOver and keyboard navigation as primary validation tools.
 
 ## Keyboard Navigation & Focus
 - [ ] App is fully usable without a mouse
-- [ ] Tab / Shift-Tab navigation reaches all interactive elements
+- [ ] With Keyboard navigation enabled, Tab/Shift-Tab reaches controls and arrows navigate composite controls
 - [ ] Focus order is predictable and logical
 - [ ] No focus traps or dead ends
 - [ ] Custom actions are reachable without pointer-only gestures
@@ -81,6 +81,13 @@ Use VoiceOver and keyboard navigation as primary validation tools.
 - [ ] Feature, toolbar, menu, and action names are clear, localizable, and usable with Voice Control
 
 ---
+
+## Conditional Apple Guidance
+- [ ] Relevant checks in [Apple guidance by context](references/apple-updates.md) have been considered
+- [ ] Native semantics are inspected before proposing explicit labels or roles
+- [ ] Relevant display preferences are changed while the screen is open, not only at launch
+- [ ] Media preview dismissal restores captions; any system-wide subtitle-style effect is understood
+- [ ] Larger Text declarations are supported by core-task testing at a minimum of 200%, separately from extreme-size checks where applicable
 
 ## Instrumented Verification and Scope
 - [ ] Accessibility Inspector checks the affected screens when a runnable app is available

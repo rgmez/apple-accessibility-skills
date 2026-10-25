@@ -1,6 +1,6 @@
 # UIKit Examples
 
-These examples show how to use **uikit-accessibility-auditor** with common UIKit patterns.
+These examples show how to use **uikit-accessibility-auditor** with common UIKit patterns. They are illustrative scenarios, not executed runtime tests.
 
 ---
 
@@ -26,10 +26,10 @@ Audit this for VoiceOver discoverability and provide a patch-ready diff.
 
 ### Expected output (summary)
 
-**P0**
-- Icon-only bar button has no accessibility label.
+**Needs runtime verification**
+- Inspect the resolved label first; native controls can provide semantics without an explicit assignment. If the Share action is not understandable, use the conditional patch. The snippet alone does not justify P0.
 
-**Suggested patch**
+**Conditional patch if the resolved label is unclear**
 ```diff
  navigationItem.rightBarButtonItem = UIBarButtonItem(
      image: UIImage(systemName: "square.and.arrow.up"),
@@ -61,8 +61,8 @@ Audit this UITableViewCell for VoiceOver navigation. Suggest grouping and an acc
 
 ### Expected output (summary)
 
-**P1**
-- Multiple labels create too many VoiceOver stops; the cell should expose a concise summary.
+**Optional improvement, subject to runtime verification**
+- Multiple labels are not inherently a defect. If they represent one invoice and separate stops impede comprehension, consider the summary below. Inspect existing cell semantics and independent actions before replacing them.
 
 **Suggested patch (for a summary cell without independently actionable children)**
 ```diff
@@ -94,8 +94,8 @@ Audit for Dynamic Type support and provide a minimal fix using UIFontMetrics.
 
 ### Expected output (summary)
 
-**P1**
-- Fonts do not scale with content size category.
+**P1 if no scaling is configured elsewhere**
+- The shown fonts are unscaled. Check the complete label configuration before concluding that the screen fails Dynamic Type; apply the patch if no existing scaling path is present.
 
 **Suggested patch**
 ```diff
@@ -115,7 +115,7 @@ Audit for Dynamic Type support and provide a minimal fix using UIFontMetrics.
 ## Manual verification
 Use the relevant checks in [the UIKit checklist](../skills/uikit-accessibility-auditor/checklist.md).
 - With VoiceOver enabled, activate Share: it announces “Share” and opens the share flow once.
-- Navigate to the invoice cell: its number, due date, and amount are available. Verify selected state after selection and cell reuse.
+- Navigate to the invoice cell: its number, due date, and amount are available. If selection and reuse are part of the real cell implementation, check them separately; the summary patch does not implement those behaviors.
 - At the largest Dynamic Type sizes, verify both custom-font labels grow without clipping essential content.
 - Use Voice Control, Switch Control, and Full Keyboard Access to reach and activate changed controls.
 

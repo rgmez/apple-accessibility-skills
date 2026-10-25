@@ -1,8 +1,9 @@
 ---
 name: uikit-accessibility-auditor
 description: Audits UIKit screens on iOS and iPadOS for VoiceOver, Dynamic Type, Voice Control, Switch Control, and semantic structure issues. Use when reviewing or fixing UIKit accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
-version: 1.5.0
-compatibility: [cursor, claude, codex, skills.sh]
+metadata:
+  version: "1.6.0"
+  supported-runtimes: "cursor, claude, codex, skills.sh"
 ---
 
 # UIKit Accessibility Auditor
@@ -54,8 +55,10 @@ If context is missing, assume the simplest intent and provide safe alternatives.
 
 ## Audit checklist
 
+Use only the sections relevant to the supplied UI. For custom controls, media playback, display preferences, or release evaluations, also read [Apple guidance by context](references/apple-updates.md).
+
 ### A) Labels, hints, values (VoiceOver)
-- Icon-only buttons must have a meaningful `accessibilityLabel`.
+- Icon-only buttons must expose a meaningful resolved label. Inspect system-provided semantics before adding `accessibilityLabel`.
 - Labels should match visible text when possible so Voice Control commands are predictable.
 - Controls with changing state should expose `accessibilityValue` (or update label/value accordingly).
 - Use `accessibilityHint` only when it adds meaningful “how to” context.
@@ -130,7 +133,7 @@ Tools to consider:
 - Ensure constraints support larger text (avoid clipping/truncation hiding meaning)
 
 ### G) Screen changes and announcements
-- When a screen changes or content updates dynamically, announce it appropriately.
+- For meaningful asynchronous changes, select a screen-change, layout-change, or spoken announcement based on user impact. Preserve focus during frequent updates; do not announce every change or post notifications already supplied by native controls.
 
 Tools to consider:
 - `UIAccessibility.post(notification: .screenChanged, argument: ...)`
@@ -149,7 +152,7 @@ Tools to consider:
 
 ### I) Color, contrast, and non-color cues
 - Do not rely on color alone to convey error/success/selection.
-- Add text, iconography, or VoiceOver cues for state.
+- Add text, iconography, or VoiceOver cues for state. Test light/dark appearance and live changes to Differentiate Without Color, Increase Contrast, Reduce Transparency, and Reduce Motion; check animated-image and flashing-video preferences when applicable.
 
 ### J) Accessibility identifiers (optional)
 - Use identifiers for UI tests (not VoiceOver), but do not confuse them with labels.
@@ -163,7 +166,7 @@ Tools to consider:
 - Media playback screens must expose subtitle selection, respect system subtitle styles, and prefer `AVPlayerViewController`, `AVLegibleMediaOptionsMenuController`, or equivalent standard controls when possible.
 - On iOS/iPadOS 27 or later, when supported by the device, language, and media source, expose generated subtitle choices and identify translated/generated tracks clearly.
 - Provide subtitle-style preview during playback through standard AVKit/Media Accessibility controls or an equivalent accessible custom flow; do not make people leave the player to compare styles.
-- Gate newer APIs by documented OS/platform availability and retain authored-subtitle and system-style fallbacks on earlier deployment targets.
+- Gate newer APIs by documented OS/platform availability and retain authored-subtitle and system-style fallbacks on earlier deployment targets. Subtitle previews may temporarily hide captions; stop the preview and restore them when dismissed. Style selection changes the system preference.
 - Drag/drop, context menus, Siri/App Intents entry points, and generated actions must expose purpose, value, actions, and feedback without depending on touch-only gestures, animations, or purely visual state.
 - Feature names, tabs, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
 
@@ -173,6 +176,8 @@ Tools to consider:
 
 ## Output contract
 
+For confirmed findings, include the items below. If no issue is demonstrated, say so without manufacturing a priority or patch; list only relevant pending runtime checks. Missing context or a possible improvement is not a confirmed defect. P0 requires evidence that an essential task is blocked.
+
 Your response must include:
 
 1) **Findings** grouped by priority:
@@ -181,12 +186,13 @@ Your response must include:
 - **P2 (Medium/Low):** improvements, polish, consistency
 
 Each finding must include:
+- File/line or the supplied snippet location, plus the code or runtime evidence supporting the finding
 - What’s wrong
 - Why it matters (1–2 lines)
 - The exact fix (patch-ready)
 
 2) **Patch-ready changes**
-- Provide code snippets that can be pasted.
+- Provide code snippets for confirmed issues that can be pasted.
 - Prefer minimal diffs.
 - If changing a cell or custom view, include where the code should live (e.g., `awakeFromNib`, `init`, `viewDidLoad`, `configure(with:)`).
 
@@ -207,7 +213,8 @@ Every response must include:
 - include VoiceOver Read All, Lines rotor, text selection, and cross-page continuation when reading content is in scope
 - include subtitle selection, generated-track labeling, and style-preview checks when media playback is in scope
 
-- Use Accessibility Inspector to inspect the element tree and audit the affected screens when the app can be run.
+- Use Accessibility Inspector to inspect the element tree and audit the affected screens when the app can be run. Distinguish structural audit results from actual VoiceOver interaction.
+- Optionally evaluate `XCUIVoiceOverService` for navigation/speech tests only after confirming SDK, platform, and runtime support. Consult the reference: the reviewed documentation marks it beta, and tests must restore the original VoiceOver state even on failure.
 - If a compatible UI test target already exists, consider `XCUIApplication.performAccessibilityAudit(for:_:)` for representative screen states. Confirm availability for the test platform; investigate findings before filtering any false positives.
 - Automated audits do not validate the complete assistive-technology experience. Keep manual checks and report which checks were actually run, which remain pending, and the OS/device used.
 
@@ -304,4 +311,4 @@ These references represent the primary sources used when evaluating and prioriti
 
 ## Version
 
-1.5.0
+1.6.0

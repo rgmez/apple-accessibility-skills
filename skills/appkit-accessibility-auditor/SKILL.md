@@ -1,8 +1,9 @@
 ---
 name: appkit-accessibility-auditor
 description: Audits macOS AppKit interfaces for VoiceOver, keyboard navigation, focus order, and semantic structure issues. Use when reviewing or fixing AppKit accessibility — returns P0/P1/P2 findings with patch-ready fixes and manual verification steps.
-version: 1.5.0
-compatibility: [cursor, claude, codex, skills.sh]
+metadata:
+  version: "1.6.0"
+  supported-runtimes: "cursor, claude, codex, skills.sh"
 ---
 
 # AppKit Accessibility Auditor
@@ -55,6 +56,8 @@ If context is missing, assume the simplest intent and provide safe alternatives.
 
 ## Audit checklist
 
+Use only the sections relevant to the supplied UI. For custom controls, media playback, display preferences, or release evaluations, also read [Apple guidance by context](references/apple-updates.md).
+
 ### A) Roles, labels, help (VoiceOver)
 - Ensure actionable elements have meaningful labels and roles.
 - Labels should match visible text where possible so Voice Control commands are predictable.
@@ -71,7 +74,7 @@ AppKit tools to consider:
 ### B) Keyboard-first navigation and focus
 - The screen must be fully usable without a mouse.
 - Focus ring and key view loop should be predictable in forms and toolbars.
-- Tab/Shift-Tab navigation should reach all interactive elements.
+- With system Keyboard navigation enabled, Tab/Shift-Tab navigation should reach interactive elements appropriate to the key-view loop; use arrow keys within composite controls. Verify a visible focus indicator.
 - Custom actions should be discoverable without relying on a pointer-only gesture.
 
 Tools to consider:
@@ -150,7 +153,7 @@ Tools to consider:
 
 ### J) Color, contrast, and non-color cues
 - Do not rely on color alone for status (error/success/selection).
-- Provide icons, text, or VoiceOver cues for state.
+- Provide icons, text, or VoiceOver cues for state. Test light/dark appearance and live accessibility-display preference changes using `NSWorkspace` APIs; do not transplant UIKit APIs into AppKit.
 
 ### K) WWDC26 / OS 27 readiness
 - Resizable windows, sidebars, toolbars, and changing content areas must preserve keyboard navigation, focus order, and VoiceOver reading order.
@@ -159,7 +162,7 @@ Tools to consider:
 - Media playback screens must expose subtitle selection, respect system subtitle styles, and prefer `AVPlayerView` or standard Media Accessibility controls when possible.
 - On macOS 27 or later, expose supported generated or translated subtitle tracks and identify them clearly in custom menus.
 - Provide subtitle-style preview during playback through `AVPlayerView`, `AVLegibleMediaOptionsMenuController`, or an equivalent accessible custom flow.
-- Availability-gate newer media APIs and preserve authored-subtitle and system-style behavior on earlier macOS releases.
+- Availability-gate newer media APIs and preserve authored-subtitle and system-style behavior on earlier macOS releases. Subtitle previews may temporarily hide captions; stop the preview and restore them when dismissed. Style selection changes the system preference.
 - Drag/drop, context menus, Siri/App Intents entry points, and generated actions must expose purpose, value, actions, and feedback without depending on pointer-only gestures, animations, or purely visual state.
 - Feature names, toolbar items, menu items, and action labels should be concrete, predictable, localizable, and aligned with visible text when possible.
 
@@ -167,6 +170,8 @@ Tools to consider:
 - For App Store release evaluations, map tested core tasks to the Accessibility Nutrition Labels criteria. Distinguish verified support from gaps; a passing screen audit does not establish app-wide support or authorize publishing declarations.
 
 ## Output contract
+
+For confirmed findings, include the items below. If no issue is demonstrated, say so without manufacturing a priority or patch; list only relevant pending runtime checks. Missing context or a possible improvement is not a confirmed defect. P0 requires evidence that an essential task is blocked.
 
 Your response must include:
 
@@ -176,12 +181,13 @@ Your response must include:
 - **P2 (Medium/Low):** improvements, polish, consistency
 
 Each finding must include:
+- File/line or the supplied snippet location, plus the code or runtime evidence supporting the finding
 - What’s wrong
 - Why it matters (1–2 lines)
 - The exact fix (patch-ready)
 
 2) **Patch-ready changes**
-- Provide code snippets that can be pasted.
+- Provide code snippets for confirmed issues that can be pasted.
 - Prefer minimal diffs.
 - Specify where the change belongs (e.g., `viewDidLoad`, `awakeFromNib`, `updateUI()`, custom view init).
 
@@ -202,7 +208,8 @@ Every response must include:
 - include VoiceOver Read All, text navigation across shared elements, and page-turn continuation when reading content is in scope
 - include subtitle selection, generated-track labeling, and style-preview checks when media playback is in scope
 
-- Use Accessibility Inspector to inspect the element tree and audit the affected screens when the app can be run.
+- Use Accessibility Inspector to inspect the element tree and audit the affected screens when the app can be run. Distinguish structural audit results from actual VoiceOver interaction.
+- Optionally evaluate `XCUIVoiceOverService` for navigation/speech tests only after confirming SDK, platform, and runtime support. Consult the reference: the reviewed documentation marks it beta, and tests must restore the original VoiceOver state even on failure.
 - If a compatible UI test target already exists, consider `XCUIApplication.performAccessibilityAudit(for:_:)` for representative screen states. Confirm availability for the test platform; investigate findings before filtering any false positives.
 - Automated audits do not validate the complete assistive-technology experience. Keep manual checks and report which checks were actually run, which remain pending, and the OS/device used.
 
@@ -290,4 +297,4 @@ These references represent the primary sources used when evaluating and prioriti
 
 ## Version
 
-1.5.0
+1.6.0

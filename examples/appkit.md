@@ -1,6 +1,6 @@
 # AppKit Examples
 
-These examples show how to use **appkit-accessibility-auditor** with common AppKit patterns.
+These examples show how to use **appkit-accessibility-auditor** with common AppKit patterns. They are illustrative scenarios, not executed runtime tests.
 
 ---
 
@@ -25,10 +25,10 @@ Audit this button for VoiceOver. Provide a patch-ready diff.
 
 ### Expected output (summary)
 
-**P0**
-- Button has no accessibility label.
+**Needs runtime verification**
+- Inspect the resolved role and label before adding an override. If the Settings action is not understandable, apply the conditional patch; no essential-task blocker is demonstrated by this snippet.
 
-**Suggested patch**
+**Conditional patch if the resolved label is unclear**
 ```diff
  let button = NSButton(
      image: NSImage(systemSymbolName: "gearshape", accessibilityDescription: nil)!,
@@ -64,9 +64,10 @@ Suggest minimal changes without rewriting the component.
 
 ### Expected output (summary)
 
-**P0**
-- Not operable via keyboard (mouse-only).
-- No accessibility role/label/action; not discoverable or directly activatable by VoiceOver.
+**P1**
+- The shown custom view has mouse handling but no keyboard or accessibility activation path. Use P0 only if this blocks a demonstrated essential task.
+
+The outline below adds semantics and activation only. It is not a complete keyboard-accessibility fix: the host must put the view in the key-view loop and provide a visible focus indicator.
 
 **Suggested patch (outline)**
 ```diff
@@ -117,10 +118,10 @@ Audit a view-based NSTableView row for VoiceOver comprehension. Suggest a concis
 
 ### Expected output (summary)
 
-**P1**
-- Row content is visually clear but not summarized for VoiceOver.
+**Insufficient context for a confirmed finding**
+- The input describes visible content but provides no accessibility implementation or runtime output. Inspect the row and cells before concluding that any data is missing or too fragmented.
 
-**Suggested approach**
+**Conditional approach after inspecting the existing row**
 - Expose the row (or primary cell) with:
   - Label: "Invoice number 42"
   - Value: "Due in 7 days. Amount €320.00"
@@ -131,7 +132,7 @@ Audit a view-based NSTableView row for VoiceOver comprehension. Suggest a concis
 ## Manual verification
 Use the relevant checks in [the AppKit checklist](../skills/appkit-accessibility-auditor/checklist.md).
 - With VoiceOver enabled, navigate to Settings and activate it: the purpose is announced and the settings flow opens once.
-- Tab/Shift-Tab to the custom card and use Space/Return; verify the action fires once and that keyboard focus is visible. The outline above still needs focus-ring drawing if the component does not supply it.
+- Enable Keyboard navigation in macOS settings. For the partial card patch, verify Space/Return and VoiceOver activation each fire once. Key-view-loop integration and visible focus are pending requirements for the real host; do not report them as solved by this outline.
 - Read invoice rows with VoiceOver and change selection with arrow keys: number, due date, amount, and selected state remain discoverable.
 - Use Voice Control and Switch Control to reach changed controls and activate their exposed actions.
 

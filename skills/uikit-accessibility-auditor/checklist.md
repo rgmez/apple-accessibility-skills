@@ -79,6 +79,13 @@ Use VoiceOver, Dynamic Type, and touch interaction to validate behavior.
 
 ---
 
+## Conditional Apple Guidance
+- [ ] Relevant checks in [Apple guidance by context](references/apple-updates.md) have been considered
+- [ ] Native semantics are inspected before proposing explicit labels or roles
+- [ ] Relevant display preferences are changed while the screen is open, not only at launch
+- [ ] Media preview dismissal restores captions; any system-wide subtitle-style effect is understood
+- [ ] Larger Text declarations are supported by core-task testing at a minimum of 200%, separately from extreme-size checks where applicable
+
 ## Instrumented Verification and Scope
 - [ ] Accessibility Inspector checks the affected screens when a runnable app is available
 - [ ] Compatible existing UI tests audit representative screen states where useful; false positives are investigated before filtering

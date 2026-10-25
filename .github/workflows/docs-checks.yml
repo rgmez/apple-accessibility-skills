@@ -25,3 +25,17 @@ jobs:
 
       - name: Validate local markdown links
         run: python3 scripts/check_markdown_local_links.py
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install validation dependencies
+        run: python3 -m pip install -r requirements-dev.txt
+
+      - name: Validate skill metadata and versions
+        run: python3 scripts/validate_skills.py
+
+      - name: Test skill validator
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'

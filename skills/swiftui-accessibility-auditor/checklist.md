@@ -37,12 +37,13 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 - [ ] Text scales correctly up to the largest accessibility sizes
 - [ ] Important information is not lost due to truncation
 - [ ] Layout adapts naturally without relying on minimumScaleFactor
-- [ ] No fixed font sizes block text scaling
+- [ ] Text scales; numeric base sizes in scalable custom fonts are not treated as defects
 
 ## Focus & Keyboard Navigation (macOS / iPad)
 - [ ] Screen is fully usable with keyboard only
 - [ ] Focus order is predictable and logical
 - [ ] Custom components can receive focus when needed
+- [ ] Keyboard navigation is enabled in macOS settings for Tab tests
 - [ ] Focus is not trapped or lost after interactions
 - [ ] Custom actions are reachable without touch-only gestures
 - [ ] Keyboard focus and accessibility focus are verified independently
@@ -52,6 +53,7 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 - [ ] Information is not conveyed by color alone
 - [ ] States (error, selected, disabled) are understandable without color
 - [ ] System or semantic colors are preferred where possible
+- [ ] Custom controls respond to Show Borders and Reduce Bright Effects where supported
 
 ## Touch Targets (iOS)
 - [ ] Tappable elements are at least ~44x44 pt
@@ -66,6 +68,7 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 ## Motion
 - [ ] Animations are subtle and do not block interaction
 - [ ] Reduce Motion preferences are respected where applicable
+- [ ] Animated Images and Dim Flashing Lights are checked separately for relevant content
 
 ## WWDC26 / OS 27 Readiness
 - [ ] Resizing, iPhone Mirroring, iPad windowing, and toolbar overflow keep text readable and focus order stable
@@ -73,10 +76,17 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 - [ ] Reorder, drag/drop, swipe actions, and gesture-first flows expose purpose, value, actions, and feedback
 - [ ] New accessibility APIs are gated by documented OS/platform availability with accessible fallbacks
 - [ ] Media screens expose authored and supported generated subtitles and respect system subtitle styles
-- [ ] Subtitle styles can be previewed during playback without obscuring controls or active captions
+- [ ] Subtitle preview avoids controls; temporarily replaced captions resume when the preview ends
 - [ ] Feature, tab, menu, and action names are clear, localizable, and usable with Voice Control
 
 ---
+
+## Conditional Apple Guidance
+- [ ] Relevant checks in [Apple guidance by context](references/apple-updates.md) have been considered
+- [ ] Native semantics are inspected before proposing explicit labels or roles
+- [ ] Relevant display preferences are changed while the screen is open, not only at launch
+- [ ] Media preview dismissal restores captions; any system-wide subtitle-style effect is understood
+- [ ] Larger Text declarations are supported by core-task testing at a minimum of 200%, separately from extreme-size checks where applicable
 
 ## Instrumented Verification and Scope
 - [ ] Accessibility Inspector checks the affected screens when a runnable app is available

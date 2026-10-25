@@ -39,7 +39,9 @@ For every skill update:
 - keep the required section order from `docs/skill-canonical-standard.md`
 - keep findings prioritized as P0/P1/P2
 - include explicit verification steps
-- reference the related `checklist.md` as a required artifact
+- reference the skill-relative `checklist.md` as validation guidance
+- validate Agent Skills frontmatter and matching metadata/body versions with `python3 scripts/validate_skills.py`
+- keep beta APIs conditional and distinguish runtime checks from proven defects
 
 ## Pull Request Checklist
 
