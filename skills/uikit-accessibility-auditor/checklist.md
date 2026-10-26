@@ -66,7 +66,7 @@ Use VoiceOver, Dynamic Type, and touch interaction to validate behavior.
 - [ ] States are not conveyed by color alone
 - [ ] Error/success/selection states are understandable via VoiceOver
 
-## WWDC26 / OS 27 Readiness
+## Adaptive Layouts and Media
 - [ ] Resizable iPhone apps, iPhone Mirroring, and iPad windowing preserve Dynamic Type, focus, and VoiceOver order
 - [ ] Layout and accessibility behavior do not depend on `UIScreen.main`, fixed screen bounds, idiom, or orientation checks
 - [ ] Tab/sidebar changes, prominent tabs, navigation bar minimization, and menu image visibility do not hide important actions

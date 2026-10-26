@@ -4,6 +4,13 @@ Documentation reviewed: 2026-10-25. Confirm current SDK/platform availability be
 
 Read this reference when auditing UIKit controls, preferences, media, or release-readiness claims.
 
+## Platform evidence
+
+Session sources checked: 2026-10-26. Use the linked Apple material as evidence for the specific behavior described, then confirm individual API availability against the project's SDK and deployment target.
+
+- [Modernize your UIKit app (WWDC26)](https://developer.apple.com/videos/play/wwdc2026/278/) documents resizable iPhone Mirroring and iPhone apps on iPad in iOS/macOS 27.
+- [Customize your app for Assistive Access (WWDC25)](https://developer.apple.com/videos/play/wwdc2025/238/) documents the SwiftUI `AssistiveAccess` scene in iOS/iPadOS 26; it is not a UIKit scene API.
+
 ## Controls and semantics
 
 - Prefer native UIKit controls and standard containers; preserve their roles, actions, traits, focus, and state behavior.

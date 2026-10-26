@@ -6,6 +6,13 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+## [1.6.1] - 2026-10-26
+
+### Changed
+- Updated UIKit to `1.6.1` with explicit boundaries for instructions embedded in audit inputs and version-specific API verification.
+- Clarified UIKit adaptive-layout/media checks and recorded primary Apple evidence for iOS 26/27 guidance.
+- Added a UIKit evaluation scenario for source comments that attempt to redirect the audit.
+
 ## [1.6.0] - 2026-10-25
 
 ### Added
