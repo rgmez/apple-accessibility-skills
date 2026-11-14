@@ -99,6 +99,13 @@ Use VoiceOver, Dynamic Type, and keyboard navigation where applicable.
 - [ ] Essential tasks remain available in the tailored iOS/iPadOS experience
 - [ ] Assistive Access scene/environment APIs are gated by their documented availability
 
+## Forms & Modal Transitions
+- [ ] Field purpose remains accessible after entering a value
+- [ ] Validation identifies the affected field and correction without relying on color alone
+- [ ] Failed submission preserves entered values and makes errors discoverable without repeated focus jumps
+- [ ] Custom modal overlays exclude blocked background controls from VoiceOver and keyboard navigation
+- [ ] Dismissal is accessible; keyboard and VoiceOver focus return to the invoker or a logical fallback
+
 ## Final validation
 - [ ] Screen is usable with VoiceOver enabled
 - [ ] Screen remains usable at extreme text sizes

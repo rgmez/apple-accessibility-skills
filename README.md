@@ -18,6 +18,7 @@ The skills audit core Apple accessibility concerns and newer platform risks:
 
 - VoiceOver, Voice Control, Switch Control, keyboard navigation, and Dynamic Type
 - semantic labels, traits, grouping, reading order, state, and custom actions
+- form validation, input preservation, modal isolation, and focus restoration
 - long-form reading experiences, text selection, continuous reading, and custom-rendered text
 - contrast, non-color cues, touch targets, motion preferences, and readable materials
 - Conditional checks for display preferences, native semantics, and optional VoiceOver automation

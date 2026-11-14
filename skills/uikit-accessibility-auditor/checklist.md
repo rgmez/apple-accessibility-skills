@@ -97,6 +97,13 @@ Use VoiceOver, Dynamic Type, and touch interaction to validate behavior.
 - [ ] Essential tasks remain available in the tailored iOS/iPadOS experience
 - [ ] The integration uses APIs appropriate to the framework and deployment target
 
+## Forms & Modal Transitions
+- [ ] Field purpose remains accessible after entering a value
+- [ ] Validation identifies the affected field and correction without relying on color alone
+- [ ] Failed submission preserves entered values and makes errors discoverable without repeated focus jumps
+- [ ] Custom modal overlays exclude blocked background controls from VoiceOver and keyboard navigation
+- [ ] Dismissal is accessible; keyboard and VoiceOver focus return to the invoker or a logical fallback
+
 ## Final validation
 - [ ] Screen is usable with VoiceOver enabled
 - [ ] Screen works at extreme Dynamic Type sizes

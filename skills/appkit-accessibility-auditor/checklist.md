@@ -96,6 +96,13 @@ Use VoiceOver and keyboard navigation as primary validation tools.
 - [ ] Results identify the OS/device, checks performed, and checks still pending
 - [ ] App Store support declarations, when in scope, are backed by tested core tasks rather than one passing screen
 
+## Forms & Modal Transitions
+- [ ] Field purpose remains accessible after entering a value
+- [ ] Validation identifies the affected field and correction without relying on color alone
+- [ ] Failed submission preserves entered values and makes errors discoverable without repeated focus jumps
+- [ ] Custom modal overlays exclude blocked background controls from VoiceOver and keyboard navigation
+- [ ] Dismissal is accessible; keyboard and VoiceOver focus return to the invoker or a logical fallback
+
 ## Final validation
 - [ ] Screen is usable with VoiceOver enabled
 - [ ] App is fully operable using keyboard only
